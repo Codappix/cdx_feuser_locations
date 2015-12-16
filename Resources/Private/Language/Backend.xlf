@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0">
+     <file source-language="en" datatype="plaintext" original="messages" date="2015-12-16T14:43:57Z" product-name="wv_feuser_locations">
+         <header/>
+         <body>
+             <trans-unit id="model.location.type" xml:space="preserve">
+                <source>Location</source>
+             </trans-unit>
+             <trans-unit id="model.location.lat" xml:space="preserve">
+                <source>Latitude</source>
+             </trans-unit>
+             <trans-unit id="model.location.lng" xml:space="preserve">
+                <source>Longitude</source>
+             </trans-unit>
+         </body>
+     </file>
+</xliff>
