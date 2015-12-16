@@ -7,10 +7,10 @@
                 <source>Location</source>
              </trans-unit>
              <trans-unit id="model.location.lat" xml:space="preserve">
-                <source>Latitude</source>
+                <source>Latitude:</source>
              </trans-unit>
              <trans-unit id="model.location.lng" xml:space="preserve">
-                <source>Longitude</source>
+                <source>Longitude:</source>
              </trans-unit>
          </body>
      </file>

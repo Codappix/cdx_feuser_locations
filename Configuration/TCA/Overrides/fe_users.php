@@ -32,9 +32,21 @@ call_user_func(
                 ],
                 'types' => [
                     'Tx_WvFeuserLocations_Domain_Model_Location' => [
-                        'showitem' => 'company,address,zip,city,country,telephone,fax,email,www,lat,lng' .
+                        'showitem' => '--palette--;;wv_address,--palette--;;wv_contact,' .
+                            ',--palette--;;wv_geoinformation' .
                             ',--div--;' . $coreLanguagePath . 'fe_users.tabs.extended,image,tx_extbase_type,usergroup' .
                             ',--div--;' . $coreLanguagePath . 'fe_users.tabs.access,disable,starttime,endtime',
+                    ],
+                ],
+                'palettes' => [
+                    'wv_address' => [
+                        'showitem' => 'company,--linebreak--,address,--linebreak--,zip,city,--linebreak--,country',
+                    ],
+                    'wv_contact' => [
+                        'showitem' => 'telephone,fax,--linebreak--,email,www',
+                    ],
+                    'wv_geoinformation' => [
+                        'showitem' => 'lat,lng',
                     ],
                 ],
                 'columns' => [

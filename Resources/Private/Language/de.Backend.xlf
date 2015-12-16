@@ -8,12 +8,12 @@
                  <target>Standort</target>
              </trans-unit>
              <trans-unit id="model.location.lat" xml:space="preserve">
-                <source>Latitude</source>
-                <target>Breitengrad</target>
+                <source>Latitude:</source>
+                <target>Breitengrad:</target>
              </trans-unit>
              <trans-unit id="model.location.lng" xml:space="preserve">
-                <source>Longitude</source>
-                <target>Längengrad</target>
+                <source>Longitude:</source>
+                <target>Längengrad:</target>
              </trans-unit>
          </body>
      </file>
