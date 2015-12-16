@@ -75,10 +75,15 @@ class DataMapHook
     {
         // Do not process if foreign table, unintended action,
         // or fields were changed explicitly.
-        if ($table !== $this->tableToProcess || $action !== 'update'
-            || in_array(array_keys($modifiedFields), ['lat', 'lng'])
-        ) {
+        if ($table !== $this->tableToProcess || $action !== 'update') {
             return false;
+        }
+
+        // If fields were cleared we force geocode
+        if (isset($modifiedFields['lat']) && $modifiedFields['lat'] === ''
+            && isset($modifiedFields['lng']) && $modifiedFields['lng'] === ''
+        ) {
+            return true;
         }
 
         // Only process if one of the fields was updated, containing new information.
