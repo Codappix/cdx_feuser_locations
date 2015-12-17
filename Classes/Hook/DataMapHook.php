@@ -14,6 +14,8 @@ namespace WebVision\WvFeuserLocations\Hook;
  * The TYPO3 project - inspiring people to share!
  */
 
+use WebVision\WvFeuserLocations\Service\Configuration;
+
 /**
  * Hook to process updated records.
  *
@@ -123,16 +125,6 @@ class DataMapHook
     }
 
     /**
-     * Get api key for requests.
-     *
-     * @return string
-     */
-    protected function getApiKey()
-    {
-        return 'AIzaSyCkXIWKSAtB932vyNc4W_pdO9LEXMjbzbo';
-    }
-
-    /**
      * Get geo information from Google for given address.
      *
      * @param string $address
@@ -143,7 +135,7 @@ class DataMapHook
     {
         $response = json_decode(
             \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl(
-                'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=' . $this->getApiKey()
+                'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=' . Configuration::getGoogleApiKey()
             ),
             true
         );
