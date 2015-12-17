@@ -46,7 +46,7 @@ call_user_func(
                         'showitem' => 'telephone,fax,--linebreak--,email,www',
                     ],
                     'wv_geoinformation' => [
-                        'showitem' => 'lat,lng',
+                        'showitem' => 'lat,lng,--linebreak--,map',
                     ],
                 ],
                 'columns' => [
@@ -74,9 +74,17 @@ call_user_func(
                             'eval' => 'nospace,trim',
                         ],
                     ],
+                    'map' => [
+                        'label' => $languagePath . 'model.location.map',
+                        'config' => [
+                            'type' => 'user',
+                            'userFunc' => 'WebVision\WvFeuserLocations\Tca\FieldRendering\MapFieldRendering->render',
+                        ],
+                    ],
                 ],
             ]
         );
+        $GLOBALS['TCA']['fe_users']['interface']['showRecordFieldList'] .= ',lat,lng';
     },
     'wv_feuser_locations'
 );

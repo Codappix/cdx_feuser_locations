@@ -12,6 +12,9 @@
              <trans-unit id="model.location.lng" xml:space="preserve">
                 <source>Longitude:</source>
              </trans-unit>
+             <trans-unit id="model.location.map" xml:space="preserve">
+                <source>Map:</source>
+             </trans-unit>
          </body>
      </file>
 </xliff>
