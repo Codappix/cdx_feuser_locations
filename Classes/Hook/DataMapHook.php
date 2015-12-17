@@ -49,8 +49,9 @@ class DataMapHook
      *
      * @return void
      */
-    public function processDatamap_postProcessFieldArray($action, $table, $uid, array &$modifiedFields)
-    {
+    public function processDatamap_postProcessFieldArray( // @codingStandardsIgnoreLine
+        $action, $table, $uid, array &$modifiedFields
+    ) {
         if(!$this->processGeocoding($table, $action, $modifiedFields)) {
             return;
         }
@@ -135,7 +136,9 @@ class DataMapHook
     {
         $response = json_decode(
             \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl(
-                'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=' . Configuration::getGoogleApiKey()
+                'https://maps.googleapis.com/maps/api/geocode/json?address=' .
+                urlencode($address) . '&key=' .
+                Configuration::getGoogleApiKey()
             ),
             true
         );
