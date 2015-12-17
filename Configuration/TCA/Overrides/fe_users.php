@@ -34,7 +34,7 @@ call_user_func(
                     'Tx_WvFeuserLocations_Domain_Model_Location' => [
                         'showitem' => '--palette--;;wv_address,--palette--;;wv_contact,' .
                             ',--palette--;;wv_geoinformation' .
-                            ',--div--;' . $coreLanguagePath . 'fe_users.tabs.extended,image,tx_extbase_type,usergroup' .
+                            ',--div--;' . $coreLanguagePath . 'fe_users.tabs.extended,image,tx_extbase_type' .
                             ',--div--;' . $coreLanguagePath . 'fe_users.tabs.access,disable,starttime,endtime',
                     ],
                 ],
