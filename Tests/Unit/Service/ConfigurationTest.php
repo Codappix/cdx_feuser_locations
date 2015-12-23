@@ -17,7 +17,7 @@ namespace WebVision\WvFeuserLocations\Tests\Unit\Service;
 /**
  * @author Daniel Siepmann <d.siepmann@web-vision.de>
  */
-class ConfigurationTest extends \PHPUnit_Framework_TestCase
+class ConfigurationTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 {
     /**
      * @test

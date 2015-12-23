@@ -18,7 +18,7 @@ namespace WebVision\WvFeuserLocations\Tests\Unit\Tca\FieldRendering;
  *
  * @author Daniel Siepmann <d.siepmann@web-vision.de>
  */
-class MapFieldRenderingTest extends \PHPUnit_Framework_TestCase
+class MapFieldRenderingTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 {
     /**
      * @test
