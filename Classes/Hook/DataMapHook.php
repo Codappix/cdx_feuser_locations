@@ -111,11 +111,12 @@ class DataMapHook
      */
     protected function getAddress(array $modifiedFields, $uid)
     {
-        $record = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
-            implode(',', $this->fieldsTriggerUpdate),
-            $this->tableToProcess,
-            'uid = ' . (int) $uid
-        );
+        $record = $this->getDatabaseConnection()
+            ->exec_SELECTgetSingleRow(
+                implode(',', $this->fieldsTriggerUpdate),
+                $this->tableToProcess,
+                'uid = ' . (int) $uid
+            );
 
         \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule(
             $record,
@@ -151,5 +152,15 @@ class DataMapHook
             'Could not geocode address: "' . $address . '". Return status was: "' . $response['status'] . '".',
             1450279414
         );
+    }
+
+    /**
+     * Get TYPO3 database connection.
+     *
+     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     */
+    protected function getDatabaseConnection()
+    {
+        return $GLOBALS['TYPO3_DB'];
     }
 }
