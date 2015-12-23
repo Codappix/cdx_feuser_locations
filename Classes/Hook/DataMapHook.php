@@ -135,14 +135,7 @@ class DataMapHook
      */
     protected function getGeoinformation($address)
     {
-        $response = json_decode(
-            \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl(
-                'https://maps.googleapis.com/maps/api/geocode/json?address=' .
-                urlencode($address) . '&key=' .
-                Configuration::getGoogleApiKey()
-            ),
-            true
-        );
+        $response = json_decode($this->getGoogleGeocode($address), true);
 
         if ($response['status'] === 'OK') {
             return $response['results'][0];
@@ -155,7 +148,27 @@ class DataMapHook
     }
 
     /**
+     * Get pure geocode API result from Google.
+     *
+     * @codeCoverageIgnore Just wrap Google API.
+     *
+     * @param string $address
+     *
+     * @return string
+     */
+    protected function getGoogleGeocode($address)
+    {
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl(
+            'https://maps.googleapis.com/maps/api/geocode/json?address=' .
+            urlencode($address) . '&key=' .
+            Configuration::getGoogleApiKey()
+        );
+    }
+
+    /**
      * Get TYPO3 database connection.
+     *
+     * @codeCoverageIgnore Just wraps TYPO3 API.
      *
      * @return \TYPO3\CMS\Core\Database\DatabaseConnection
      */

@@ -15,11 +15,11 @@ namespace WebVision\Tests\Unit\Hook;
  */
 
 /**
- * Test different kinds of calls where the hook get's executed.
+ * Test exceptions within hook.
  *
  * @author Daniel Siepmann <coding@daniel-siepmann.de>
  */
-class DataMapHookExecutedTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
+class DataMapHookExceptionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 {
     protected $subject;
 
@@ -49,51 +49,20 @@ class DataMapHookExecutedTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
             ->with('An der Eickesmühle 38 41238 Mönchengladbach Germany')
             ->will(self::returnValue(
                 json_encode([
-                    'status' => 'OK',
-                    'results' => [
-                        [
-                            'geometry' => [
-                                'location' => [
-                                    'lat' => 18.23,
-                                    'lng' => 1.23,
-                                ]
-                            ]
-                        ]
-                    ]
+                    'status' => 'Failure',
                 ])
             ));
     }
 
     /**
      * @test
+     *
+     * @expectedException \Exception
+     * @expectedExceptionMessageRegExp #Could not geocode address.* "Failure".#
+     * @expectedExceptionCode 1450279414
      */
-    public function updateRecordWithGeocodeOnForcedUpdate()
+    public function throwExceptionOnNonSuccessfullReturn()
     {
-        $expectedResult = ['lat' => 18.23, 'lng' => 1.23];
-        // Force update by removing geocode information
-        $modifiedFields = ['lat' => '', 'lng' => ''];
-
-        $this->subject->processDatamap_postProcessFieldArray(
-            'update',
-            'fe_users',
-            5,
-            $modifiedFields
-        );
-
-        $this->assertEquals(
-            $expectedResult,
-            $modifiedFields,
-            'Did not update modified fields with geocoding information for persistence in DB, forced by empty geocode.'
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function updateRecordWithGeocodeOnUpdate()
-    {
-        $expectedResult = ['lat' => 18.23, 'lng' => 1.23, 'address' => 'An der Eickesmühle 38'];
-        // Trigger update with change in address.
         $modifiedFields = ['address' => 'An der Eickesmühle 38'];
 
         $this->subject->processDatamap_postProcessFieldArray(
@@ -101,12 +70,6 @@ class DataMapHookExecutedTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
             'fe_users',
             5,
             $modifiedFields
-        );
-
-        $this->assertEquals(
-            $expectedResult,
-            $modifiedFields,
-            'Did not update modified fields with geocoding information for persistence in DB, triggered with new address.'
         );
     }
 }
