@@ -69,33 +69,21 @@ class DataMapHookExecutedTest extends TestCase
 
     /**
      * @test
-     */
-    public function updateRecordWithGeocodeOnForcedUpdate()
-    {
-        $expectedResult = ['lat' => 18.23, 'lng' => 1.23];
-        // Force update by removing geocode information
-        $modifiedFields = ['lat' => '', 'lng' => ''];
-
-        $this->subject->processDatamap_postProcessFieldArray(
-            'update',
-            'fe_users',
-            5,
-            $modifiedFields
-        );
-
-        $this->assertEquals(
-            $expectedResult,
-            $modifiedFields,
-            'Did not update modified fields with geocoding information for persistence in DB, forced by empty geocode.'
-        );
-    }
-
-    /**
-     * @test
      * @dataProvider jsonFile
+     *
+     * @param array $expectedResult The expected state of $modifiedFields after calling hook.
+     * @param array $modifiedFields The modified fields from backend.
+     * @param string $action The action performed in backend.
+     * @param string $table The table affected by the action.
+     * @param int $uid The uid of the record affected by the action.
      */
-    public function updateRecordWithGeocodeOnUpdate($expectedResult, $modifiedFields, $action, $table, $uid)
-    {
+    public function updateRecordWithGeocode(
+        array $expectedResult,
+        array $modifiedFields,
+        $action,
+        $table,
+        $uid
+    ) {
         $this->subject->processDatamap_postProcessFieldArray(
             $action,
             $table,

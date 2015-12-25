@@ -1,0 +1,20 @@
+[
+    {
+        "Update record with geocode on update" : {
+            "expectedResult" : {"address" : "An der Eickesmühle 38", "lat" : 18.23, "lng" : 1.23},
+            "modifiedFields" : {"address" : "An der Eickesmühle 38"},
+            "action" : "update",
+            "table" : "fe_users",
+            "uid" : 5
+        }
+    },
+    {
+        "Update record with geocode on forced update" : {
+            "expectedResult" : {"lat" : 18.23, "lng" : 1.23},
+            "modifiedFields" : {"lat" : "", "lng" : ""},
+            "action" : "update",
+            "table" : "fe_users",
+            "uid" : 5
+        }
+    }
+]
