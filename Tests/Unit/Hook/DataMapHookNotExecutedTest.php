@@ -14,12 +14,14 @@ namespace WebVision\Tests\Unit\Hook;
  * The TYPO3 project - inspiring people to share!
  */
 
+use WebVision\WvFeuserLocations\Tests\Unit\TestCase;
+
 /**
  * Test different circumstances in which the hook should not be executed.
  *
  * @author Daniel Siepmann <coding@daniel-siepmann.de>
  */
-class DataMapHookNotExecutedTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
+class DataMapHookNotExecutedTest extends TestCase
 {
     protected $subject;
 
@@ -30,67 +32,32 @@ class DataMapHookNotExecutedTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 
     /**
      * @test
+     * @dataProvider jsonFile
+     *
+     * @param array $expectedResult The expected state of $modifiedFields after calling hook.
+     * @param array $modifiedFields The modified fields from backend.
+     * @param string $action The action performed in backend.
+     * @param string $table The table affected by the action.
+     * @param int $uid The uid of the record affected by the action.
      */
-    public function dontProcessForeignTables()
-    {
-        $expectedResult = ['title' => 'test'];
-        $modifiedFields = $expectedResult;
-
+    public function dontProcessForeignTables(
+        array $expectedResult,
+        array $modifiedFields,
+        $action,
+        $table,
+        $uid
+    ) {
         $this->subject->processDatamap_postProcessFieldArray(
-            'update',
-            'pages',
-            5,
+            $action,
+            $table,
+            $uid,
             $modifiedFields
         );
 
         $this->assertEquals(
             $expectedResult,
             $modifiedFields,
-            'Processing "pages" table modified the fields.'
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function dontProcessFurtherActions()
-    {
-        $expectedResult = ['title' => 'test'];
-        $modifiedFields = $expectedResult;
-
-        $this->subject->processDatamap_postProcessFieldArray(
-            'new',
-            'fe_users',
-            5,
-            $modifiedFields
-        );
-
-        $this->assertEquals(
-            $expectedResult,
-            $modifiedFields,
-            'Processing "edit" action modified the fields.'
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function dontProcessOnUnimportantInformation()
-    {
-        $expectedResult = ['title' => 'test'];
-        $modifiedFields = $expectedResult;
-
-        $this->subject->processDatamap_postProcessFieldArray(
-            'update',
-            'fe_users',
-            5,
-            $modifiedFields
-        );
-
-        $this->assertEquals(
-            $expectedResult,
-            $modifiedFields,
-            'Processing unimportant fields modified the fields.'
+            'Processed hook which should not happen with the given parameter.'
         );
     }
 }

@@ -14,12 +14,15 @@ namespace WebVision\Tests\Unit\Hook;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Tests\UnitTestCase;
+use WebVision\WvFeuserLocations\Tests\Unit\TestCase;
+
 /**
  * Test different kinds of calls where the hook get's executed.
  *
  * @author Daniel Siepmann <coding@daniel-siepmann.de>
  */
-class DataMapHookExecutedTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
+class DataMapHookExecutedTest extends TestCase
 {
     protected $subject;
 
@@ -89,17 +92,14 @@ class DataMapHookExecutedTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 
     /**
      * @test
+     * @dataProvider jsonFile
      */
-    public function updateRecordWithGeocodeOnUpdate()
+    public function updateRecordWithGeocodeOnUpdate($expectedResult, $modifiedFields, $action, $table, $uid)
     {
-        $expectedResult = ['lat' => 18.23, 'lng' => 1.23, 'address' => 'An der Eickesmühle 38'];
-        // Trigger update with change in address.
-        $modifiedFields = ['address' => 'An der Eickesmühle 38'];
-
         $this->subject->processDatamap_postProcessFieldArray(
-            'update',
-            'fe_users',
-            5,
+            $action,
+            $table,
+            $uid,
             $modifiedFields
         );
 

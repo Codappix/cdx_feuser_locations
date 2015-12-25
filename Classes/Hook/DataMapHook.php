@@ -15,6 +15,8 @@ namespace WebVision\WvFeuserLocations\Hook;
  */
 
 use WebVision\WvFeuserLocations\Service\Configuration;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Hook to process updated records.
@@ -118,12 +120,15 @@ class DataMapHook
                 'uid = ' . (int) $uid
             );
 
-        \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule(
+        ArrayUtility::mergeRecursiveWithOverrule(
             $record,
             $modifiedFields
         );
 
-        return $record['address'] . ' ' . $record['zip'] . ' ' . $record['city'] . ' ' . $record['country'];
+        return implode(
+            ' ',
+            [$record['address'], $record['zip'], $record['city'], $record['country']]
+        );
     }
 
     /**
@@ -138,6 +143,7 @@ class DataMapHook
         $response = json_decode($this->getGoogleGeocode($address), true);
 
         if ($response['status'] === 'OK') {
+            // Return first geocode result on success.
             return $response['results'][0];
         }
 
@@ -158,7 +164,7 @@ class DataMapHook
      */
     protected function getGoogleGeocode($address)
     {
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl(
+        return GeneralUtility::getUrl(
             'https://maps.googleapis.com/maps/api/geocode/json?address=' .
             urlencode($address) . '&key=' .
             Configuration::getGoogleApiKey()
