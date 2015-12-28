@@ -13,31 +13,34 @@
  */
 
 /**
- * An example of a project-specific implementation.
+ * Provide bootstraping for PHPUnit Tests.
  *
- * After registering this autoload function with SPL, the following line
- * would cause the function to attempt to load the \Foo\Bar\Baz\Qux class
- * from /path/to/project/src/Baz/Qux.php:
- *
- *      new \Foo\Bar\Baz\Qux;
- *
- * @author http://www.php-fig.org/psr/psr-4/examples/
- *
- * @param string $class The fully-qualified class name.
- *
- * @return void
+ * @author https://github.com/pagemachine/cors/blob/master/Tests/bootstrap.php
  */
-spl_autoload_register(function ($class) {
-    $prefix = 'WebVision\WvFeuserLocations';
-    $baseDir = dirname(dirname(__DIR__)) . '/Classes/';
-    $len = strlen($prefix);
-    if (strncmp($prefix, $class, $len) !== 0) {
-        return;
-    }
-    $relativeClass = substr($class, $len);
-    $file = $baseDir . str_replace('\\', '/', $relativeClass) . '.php';
 
-    if (file_exists($file)) {
-        require_once $file;
-    }
-});
+if (!file_exists(__DIR__ . '/../../vendor/autoload.php')) {
+    throw new \RuntimeException('Could not find vendor/autoload.php, make sure you ran composer.');
+}
+define('PATH_thisScript', realpath(__DIR__ . '/../../vendor/typo3/cms/typo3/index.php')); // @codingStandardsIgnoreLine
+define('TYPO3_MODE', 'BE');
+putenv('TYPO3_CONTEXT=Testing');
+call_user_func(
+    function ($composerClassLoader, $bootstrap) {
+        // Use old setup order for TYPO3 < 7.3
+        if (method_exists($bootstrap, 'unregisterClassLoader')) {
+            $bootstrap->baseSetup('typo3/');
+            $bootstrap->initializeClassLoader();
+        } else {
+            $bootstrap->initializeClassLoader($composerClassLoader);
+            $bootstrap->baseSetup('typo3/');
+        }
+        // Backwards compatibility with TYPO3 < 7.3
+        if (method_exists($bootstrap, 'disableCoreAndClassesCache')) {
+            $bootstrap->disableCoreAndClassesCache();
+        } else {
+            $bootstrap->disableCoreCache();
+        }
+    },
+    require_once __DIR__ . '/../../vendor/autoload.php',
+    \TYPO3\CMS\Core\Core\Bootstrap::getInstance()
+);

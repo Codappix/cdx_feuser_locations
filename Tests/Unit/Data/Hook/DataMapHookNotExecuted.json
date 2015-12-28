@@ -1,0 +1,29 @@
+[
+    {
+        "Foreign table" : {
+            "expectedResult" : {"title" : "test"},
+            "modifiedFields" : {"title" : "test"},
+            "action" : "update",
+            "table" : "pages",
+            "uid" : 5
+        }
+    },
+    {
+        "Foreign action" : {
+            "expectedResult" : {"title" : "test"},
+            "modifiedFields" : {"title" : "test"},
+            "action" : "new",
+            "table" : "fe_users",
+            "uid" : 5
+        }
+    },
+    {
+        "No data triggering process" : {
+            "expectedResult" : {"title" : "test"},
+            "modifiedFields" : {"title" : "test"},
+            "action" : "update",
+            "table" : "fe_users",
+            "uid" : 5
+        }
+    }
+]

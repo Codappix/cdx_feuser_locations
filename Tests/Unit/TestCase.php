@@ -1,5 +1,5 @@
 <?php
-namespace WebVision\WvFeuserLocations\Tests\Unit\Service;
+namespace WebVision\WvFeuserLocations\Tests\Unit;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,20 +14,23 @@ namespace WebVision\WvFeuserLocations\Tests\Unit\Service;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Tests\UnitTestCase;
+use WebVision\WvFeuserLocations\Tests\Unit\JsonFileIterator;
+
 /**
+ * Base test case providing json dataprovider.
+ *
  * @author Daniel Siepmann <d.siepmann@web-vision.de>
  */
-class ConfigurationTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
+class TestCase extends UnitTestCase
 {
     /**
-     * @test
+     * Autoloading dataprovider for json files per test class.
+     *
+     * @return JsonFileIterator
      */
-    public function canFetchGoogleApiKey()
+    public function jsonFile()
     {
-        $this->assertEquals(
-            39,
-            strlen(\WebVision\WvFeuserLocations\Service\Configuration::getGoogleApiKey()),
-            'Google API has not the expected length. Mostly the key is not valid.'
-        );
+        return new JsonFileIterator(get_class($this));
     }
 }

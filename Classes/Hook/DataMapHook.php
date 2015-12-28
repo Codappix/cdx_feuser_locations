@@ -15,6 +15,8 @@ namespace WebVision\WvFeuserLocations\Hook;
  */
 
 use WebVision\WvFeuserLocations\Service\Configuration;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Hook to process updated records.
@@ -111,18 +113,22 @@ class DataMapHook
      */
     protected function getAddress(array $modifiedFields, $uid)
     {
-        $record = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
-            implode(',', $this->fieldsTriggerUpdate),
-            $this->tableToProcess,
-            'uid = ' . (int) $uid
-        );
+        $record = $this->getDatabaseConnection()
+            ->exec_SELECTgetSingleRow(
+                implode(',', $this->fieldsTriggerUpdate),
+                $this->tableToProcess,
+                'uid = ' . (int) $uid
+            );
 
-        \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule(
+        ArrayUtility::mergeRecursiveWithOverrule(
             $record,
             $modifiedFields
         );
 
-        return $record['address'] . ' ' . $record['zip'] . ' ' . $record['city'] . ' ' . $record['country'];
+        return implode(
+            ' ',
+            [$record['address'], $record['zip'], $record['city'], $record['country']]
+        );
     }
 
     /**
@@ -134,16 +140,10 @@ class DataMapHook
      */
     protected function getGeoinformation($address)
     {
-        $response = json_decode(
-            \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl(
-                'https://maps.googleapis.com/maps/api/geocode/json?address=' .
-                urlencode($address) . '&key=' .
-                Configuration::getGoogleApiKey()
-            ),
-            true
-        );
+        $response = json_decode($this->getGoogleGeocode($address), true);
 
         if ($response['status'] === 'OK') {
+            // Return first geocode result on success.
             return $response['results'][0];
         }
 
@@ -151,5 +151,35 @@ class DataMapHook
             'Could not geocode address: "' . $address . '". Return status was: "' . $response['status'] . '".',
             1450279414
         );
+    }
+
+    /**
+     * Get pure geocode API result from Google.
+     *
+     * @codeCoverageIgnore Just wrap Google API.
+     *
+     * @param string $address
+     *
+     * @return string
+     */
+    protected function getGoogleGeocode($address)
+    {
+        return GeneralUtility::getUrl(
+            'https://maps.googleapis.com/maps/api/geocode/json?address=' .
+            urlencode($address) . '&key=' .
+            Configuration::getGoogleApiKey()
+        );
+    }
+
+    /**
+     * Get TYPO3 database connection.
+     *
+     * @codeCoverageIgnore Just wraps TYPO3 API.
+     *
+     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     */
+    protected function getDatabaseConnection()
+    {
+        return $GLOBALS['TYPO3_DB'];
     }
 }
