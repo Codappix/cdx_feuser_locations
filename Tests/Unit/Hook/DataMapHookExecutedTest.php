@@ -71,7 +71,7 @@ class DataMapHookExecutedTest extends TestCase
      * @test
      * @dataProvider jsonFile
      *
-     * @param array $expectedResult The expected state of $modifiedFields after calling hook.
+     * @param array $expectedResult The expected state after calling hook.
      * @param array $modifiedFields The modified fields from backend.
      * @param string $action The action performed in backend.
      * @param string $table The table affected by the action.
