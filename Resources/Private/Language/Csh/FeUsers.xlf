@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0">
+     <file source-language="en" datatype="plaintext" original="messages" date="2015-12-29T11:57:45Z" product-name="wv_feuser_locations">
+         <header/>
+         <body>
+             <!-- Extend existing information. -->
+             <trans-unit id=".description.+">
+                 <source>Also used for Locations.</source>
+             </trans-unit>
+             <trans-unit id=".details.+">
+                 <source>In case of a location, there is no possible login. Instead they are used to be displayed on several places.</source>
+             </trans-unit>
+             <!-- Remove non helpful texts from core. -->
+             <trans-unit id="company.description">
+                 <source></source>
+             </trans-unit>
+             <trans-unit id="address.description">
+                 <source></source>
+             </trans-unit>
+             <trans-unit id="www.description">
+                 <source></source>
+             </trans-unit>
+
+             <trans-unit id="telephone.description">
+                 <source>One number per line.</source>
+             </trans-unit>
+             <trans-unit id="email.description">
+                 <source>One address per line.</source>
+             </trans-unit>
+             <trans-unit id="lat.description">
+                 <source>Remove value of Latitude and Longitude to autogenerate both based on exiting address, if any.</source>
+             </trans-unit>
+             <trans-unit id="lng.description">
+                 <source>Remove value of Latitude and Longitude to autogenerate both based on exiting address, if any.</source>
+             </trans-unit>
+             <trans-unit id="map.description">
+                 <source>Non interactive. Just to show where Latitude and Longitude will be displayed.</source>
+             </trans-unit>
+             <trans-unit id="image.description">
+                 <source>Provide screenshots of the website for the company.</source>
+             </trans-unit>
+         </body>
+     </file>
+ </xliff>

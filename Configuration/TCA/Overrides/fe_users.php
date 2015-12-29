@@ -21,12 +21,13 @@
  */
 call_user_func(
     function ($extKey) {
+        $table = 'fe_users';
         $coreLanguagePath = 'LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:';
         $languagePath = 'LLL:EXT:' . $extKey . '/Resources/Private/Language/Backend.xlf:';
 
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable(
             $extKey,
-            'fe_users',
+            $table,
             'categories',
             [
                 'label' => $languagePath . 'model.location.businessSegment',
@@ -44,7 +45,7 @@ call_user_func(
         );
 
         \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule(
-            $GLOBALS['TCA']['fe_users'],
+            $GLOBALS['TCA'][$table],
             [
                 'ctrl' => [
                     'label_alt' => 'company',
@@ -53,8 +54,8 @@ call_user_func(
                     'Tx_WvFeuserLocations_Domain_Model_Location' => [
                         'showitem' => '--palette--;;wv_address,--palette--;;wv_contact,' .
                             ',--palette--;;wv_geoinformation' .
-                            ',--div--;' . $coreLanguagePath . 'fe_users.tabs.extended,image,tx_extbase_type' .
-                            ',--div--;' . $coreLanguagePath . 'fe_users.tabs.access,disable,starttime,endtime',
+                            ',--div--;' . $coreLanguagePath . $table . '.tabs.extended,image,tx_extbase_type' .
+                            ',--div--;' . $coreLanguagePath . $table . '.tabs.access,disable,starttime,endtime',
                     ],
                 ],
                 'palettes' => [
@@ -113,7 +114,7 @@ call_user_func(
                 ],
             ]
         );
-        $GLOBALS['TCA']['fe_users']['interface']['showRecordFieldList'] .= ',lat,lng';
+        $GLOBALS['TCA'][$table]['interface']['showRecordFieldList'] .= ',lat,lng';
     },
     'wv_feuser_locations'
 );
