@@ -1,5 +1,5 @@
 <?php
-namespace WebVision\Tests\Unit\Hook;
+namespace WebVision\WvFeuserLocations\Tests\Unit\Hook;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -19,35 +19,15 @@ namespace WebVision\Tests\Unit\Hook;
  *
  * @author Daniel Siepmann <coding@daniel-siepmann.de>
  */
-class DataMapHookExceptionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
+class DataMapHookExceptionTest extends AbstractDataMapHook
 {
-    protected $subject;
-
     public function setUp()
     {
-        $dbConnection = $this->getMock(
-            '\TYPO3\CMS\Core\Database\DatabaseConnection',
-            ['exec_SELECTgetSingleRow']
-        );
-        $dbConnection->expects($this->once())
-            ->method('exec_SELECTgetSingleRow')
-            ->will(self::returnValue([
-                'address' => 'An der Eickesmühle 38',
-                'zip' => '41238',
-                'city' => 'Mönchengladbach',
-                'country' => 'Germany',
-            ]));
-        $this->subject = $this
-            ->getMockBuilder('\WebVision\WvFeuserLocations\Hook\DataMapHook')
-            ->setMethods(['getDatabaseConnection', 'getGoogleGeocode'])
-            ->getMock();
-        $this->subject->expects($this->once())
-            ->method('getDatabaseConnection')
-            ->will(self::returnValue($dbConnection));
+        parent::setUp();
         $this->subject->expects($this->once())
             ->method('getGoogleGeocode')
             ->with('An der Eickesmühle 38 41238 Mönchengladbach Germany')
-            ->will(self::returnValue(
+            ->will(static::returnValue(
                 json_encode([
                     'status' => 'Failure',
                 ])
@@ -57,7 +37,7 @@ class DataMapHookExceptionTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
     /**
      * @test
      *
-     * @expectedException \Exception
+     * @expectedException \UnexpectedValueException
      * @expectedExceptionMessageRegExp #Could not geocode address.* "Failure".#
      * @expectedExceptionCode 1450279414
      */

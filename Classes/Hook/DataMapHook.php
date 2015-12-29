@@ -146,7 +146,7 @@ class DataMapHook
             return $response['results'][0];
         }
 
-        throw new \Exception(
+        throw new \UnexpectedValueException(
             'Could not geocode address: "' . $address . '". Return status was: "' . $response['status'] . '".',
             1450279414
         );

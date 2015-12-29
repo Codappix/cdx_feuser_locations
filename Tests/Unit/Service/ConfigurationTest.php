@@ -30,11 +30,27 @@ class ConfigurationTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
         $configurationManager
             ->expects($this->once())
             ->method('getConfiguration')
-            ->will(self::returnValue([
+            ->will(static::returnValue([
+                'anotherPossibleOption' => 'testKeyValue1',
                 'googleApiKey' => 'testKeyValue',
             ]));
         $this->subject = new \WebVision\WvFeuserLocations\Service\Configuration;
         $this->subject->injectConfigurationManager($configurationManager);
+    }
+
+    /**
+     * @test
+     */
+    public function canFetchCompleteConfiguration()
+    {
+        $this->assertEquals(
+            [
+                'anotherPossibleOption' => 'testKeyValue1',
+                'googleApiKey' => 'testKeyValue',
+            ],
+            $this->subject->getConfiguration(),
+            'Could not fetch the full provided configuration.'
+        );
     }
 
     /**
@@ -45,7 +61,7 @@ class ConfigurationTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
         $this->assertEquals(
             'testKeyValue',
             $this->subject->getGoogleApiKey(),
-            'Google API has not the expected length. Mostly the key is not valid.'
+            'Google API Key was not fetched from provided configuration.'
         );
     }
 }

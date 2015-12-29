@@ -31,7 +31,7 @@ class MapFieldRenderingTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
         $configurationService
             ->expects($this->atLeastOnce())
             ->method('getGoogleApiKey')
-            ->will(self::returnValue('testKey'));
+            ->will(static::returnValue('testKey'));
 
         $this->subject = $this->getMock(
             'WebVision\WvFeuserLocations\Tca\FieldRendering\MapFieldRendering',
@@ -40,7 +40,7 @@ class MapFieldRenderingTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
         $this->subject
             ->expects($this->atLeastOnce())
             ->method('getConfigurationService')
-            ->will(self::returnValue($configurationService));
+            ->will(static::returnValue($configurationService));
     }
 
     /**

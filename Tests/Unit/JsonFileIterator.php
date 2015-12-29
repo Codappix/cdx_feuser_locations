@@ -80,7 +80,7 @@ class JsonFileIterator implements Iterator
     {
         // Remove vendor, ext name and test framework.
         $classNameParts = explode('\\', $className);
-        unset($classNameParts[0], $classNameParts[1], $classNameParts[2]);
+        unset($classNameParts[0], $classNameParts[1], $classNameParts[2], $classNameParts[3]);
         $fileNameForClass = implode('/', $classNameParts);
 
         return str_replace('Test', '', $fileNameForClass);

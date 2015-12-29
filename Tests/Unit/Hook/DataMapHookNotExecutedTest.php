@@ -1,5 +1,5 @@
 <?php
-namespace WebVision\Tests\Unit\Hook;
+namespace WebVision\WvFeuserLocations\Tests\Unit\Hook;
 
 /*
  * This file is part of the TYPO3 CMS project.

@@ -104,6 +104,8 @@ class MapFieldRendering
     /**
      * Get configuration service providing configuration.
      *
+     * @codeCoverageIgnore Just wraps TYPO3 API.
+     *
      * @return \WebVision\WvFeuserLocations\Service\Configuration
      */
     protected function getConfigurationService()

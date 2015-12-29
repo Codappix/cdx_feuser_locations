@@ -63,7 +63,7 @@ class Configuration implements SingletonInterface
      *
      * @return string
      */
-    protected function getConfiguration($path = '')
+    public function getConfiguration($path = '')
     {
         if ($path === '') {
             return $this->configuration;

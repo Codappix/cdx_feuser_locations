@@ -19,7 +19,7 @@
  */
 
 if (!file_exists(__DIR__ . '/../../vendor/autoload.php')) {
-    throw new \RuntimeException('Could not find vendor/autoload.php, make sure you ran composer.');
+    throw new \InvalidArgumentException('Could not find vendor/autoload.php, make sure you ran composer.');
 }
 define('PATH_thisScript', realpath(__DIR__ . '/../../vendor/typo3/cms/typo3/index.php')); // @codingStandardsIgnoreLine
 define('TYPO3_MODE', 'BE');
