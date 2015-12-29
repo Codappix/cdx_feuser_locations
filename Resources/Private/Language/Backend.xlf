@@ -7,7 +7,7 @@
                 <source>Location</source>
              </trans-unit>
              <trans-unit id="model.location.businessSegment" xml:space="preserve">
-                <source>Business segment</source>
+                <source>Business segment:</source>
              </trans-unit>
              <trans-unit id="model.location.lat" xml:space="preserve">
                 <source>Latitude:</source>

@@ -8,8 +8,8 @@
                  <target>Standort</target>
              </trans-unit>
              <trans-unit id="model.location.businessSegment" xml:space="preserve">
-                 <source>Business segment</source>
-                 <target>Geschäftsfeld</target>
+                 <source>Business segment:</source>
+                 <target>Geschäftsfeld:</target>
              </trans-unit>
              <trans-unit id="model.location.lat" xml:space="preserve">
                 <source>Latitude:</source>

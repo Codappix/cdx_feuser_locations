@@ -100,6 +100,16 @@ call_user_func(
                             'userFunc' => 'WebVision\WvFeuserLocations\Tca\FieldRendering\MapFieldRendering->render',
                         ],
                     ],
+                    'telephone' => [
+                        'config' => [
+                            'type' => 'text',
+                        ],
+                    ],
+                    'email' => [
+                        'config' => [
+                            'type' => 'text',
+                        ],
+                    ],
                 ],
             ]
         );
