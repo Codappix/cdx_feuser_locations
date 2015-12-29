@@ -1,0 +1,8 @@
+plugin.tx_wvfeuserlocations {
+    settings {
+        googleApiKey = {$plugin.tx_wvfeuserlocations.settings.googleApiKey}
+    }
+}
+
+# Copy full plugin configuration to module (Backend).
+module.tx_wvfeuserlocations < plugin.tx_wvfeuserlocations
