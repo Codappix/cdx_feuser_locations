@@ -104,13 +104,19 @@ call_user_func(
                     'telephone' => [
                         'config' => [
                             'type' => 'text',
-                            'max' => 255,
+                            'wrap' => 'off',
+                            'max' => '__UNSET',
+                            'size' => '__UNSET',
+                            'eval' => '__UNSET',
                         ],
                     ],
                     'email' => [
                         'config' => [
                             'type' => 'text',
-                            'max' => 255,
+                            'wrap' => 'off',
+                            'max' => '__UNSET',
+                            'size' => '__UNSET',
+                            'eval' => '__UNSET',
                         ],
                     ],
                 ],
