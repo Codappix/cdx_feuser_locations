@@ -18,3 +18,10 @@
     'fe_users',
     'EXT:' . $_EXTKEY . '/Resources/Private/Language/Csh/FeUsers.xlf'
 );
+
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
+    $_EXTKEY,
+    'Configuration/TypoScript/Static',
+    'Extension Configuration'
+);

@@ -14,6 +14,10 @@ namespace WebVision\WvFeuserLocations\Service;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
+
 /**
  * Service for configurations.
  *
@@ -21,15 +25,60 @@ namespace WebVision\WvFeuserLocations\Service;
  *
  * @author Daniel Siepmann <d.siepmann@web-vision.de>
  */
-class Configuration
+class Configuration implements SingletonInterface
 {
+    /**
+     * The configuration for extension.
+     *
+     * Null if not fetched.
+     *
+     * @var array
+     */
+    protected $configuration;
+
+    /**
+     * Inject configuration via ConfigurationManager.
+     *
+     * @param ConfigurationManagerInterface $configurationManager
+     *
+     * @return Configuration
+     */
+    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager)
+    {
+        $this->configuration = $configurationManager->getConfiguration(
+            ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
+            'WvFeuserLocations',
+            'WvFeuserLocations'
+        );
+
+        return $this;
+    }
+
+    /**
+     * Get configuration. Everything, or a specific part, depending on parameter.
+     *
+     * Provide dot notation as in fluid.
+     *
+     * @param string $path Empty to get all, path to get one option.
+     *
+     * @return string
+     */
+    protected function getConfiguration($path = '')
+    {
+        if ($path === '') {
+            return $this->configuration;
+        }
+
+        return ObjectAccess::getPropertyPath($this->configuration, $path);
+    }
+
     /**
      * Get Google API Key.
      *
      * @return string
      */
-    public static function getGoogleApiKey()
+    public function getGoogleApiKey()
     {
-        return 'AIzaSyCkXIWKSAtB932vyNc4W_pdO9LEXMjbzbo';
+        return $this->getConfiguration('googleApiKey');
     }
 }

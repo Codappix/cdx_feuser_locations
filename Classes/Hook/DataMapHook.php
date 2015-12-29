@@ -14,7 +14,6 @@ namespace WebVision\WvFeuserLocations\Hook;
  * The TYPO3 project - inspiring people to share!
  */
 
-use WebVision\WvFeuserLocations\Service\Configuration;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -164,10 +163,13 @@ class DataMapHook
      */
     protected function getGoogleGeocode($address)
     {
+        $googleApiKey = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')
+            ->get('WebVision\WvFeuserLocations\Service\Configuration')
+            ->getGoogleApiKey();
+
         return GeneralUtility::getUrl(
             'https://maps.googleapis.com/maps/api/geocode/json?address=' .
-            urlencode($address) . '&key=' .
-            Configuration::getGoogleApiKey()
+            urlencode($address) . '&key=' . $googleApiKey
         );
     }
 

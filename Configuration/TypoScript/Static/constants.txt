@@ -1,0 +1,7 @@
+plugin.tx_wvfeuserlocations {
+    settings {
+        # cat=advances/api; type=string;
+        # label=LLL:EXT:wv_feuser_locations/Resources/Private/Language/Backend.xlf:constants.settings.googleApiKey
+        googleApiKey =
+    }
+}

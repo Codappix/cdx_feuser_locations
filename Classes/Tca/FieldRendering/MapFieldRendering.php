@@ -48,7 +48,7 @@ class MapFieldRendering
     protected function getJsIncludes()
     {
         return '<script src="https://maps.googleapis.com/maps/api/js?key=' .
-            Configuration::getGoogleApiKey() .
+             $this->getConfigurationService()->getGoogleApiKey() .
             '&callback=wv.initGoogleMap" async defer></script>';
     }
 
@@ -99,5 +99,16 @@ class MapFieldRendering
                     });
             };
         </script>';
+    }
+
+    /**
+     * Get configuration service providing configuration.
+     *
+     * @return \WebVision\WvFeuserLocations\Service\Configuration
+     */
+    protected function getConfigurationService()
+    {
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')
+            ->get('WebVision\WvFeuserLocations\Service\Configuration');
     }
 }

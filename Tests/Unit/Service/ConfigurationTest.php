@@ -19,14 +19,32 @@ namespace WebVision\WvFeuserLocations\Tests\Unit\Service;
  */
 class ConfigurationTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 {
+    protected $subject;
+
+    public function setUp()
+    {
+        $configurationManager = $this->getMock(
+            'TYPO3\CMS\Extbase\Configuration\ConfigurationManager',
+            ['getConfiguration']
+        );
+        $configurationManager
+            ->expects($this->once())
+            ->method('getConfiguration')
+            ->will(self::returnValue([
+                'googleApiKey' => 'testKeyValue',
+            ]));
+        $this->subject = new \WebVision\WvFeuserLocations\Service\Configuration;
+        $this->subject->injectConfigurationManager($configurationManager);
+    }
+
     /**
      * @test
      */
     public function canFetchGoogleApiKey()
     {
         $this->assertEquals(
-            39,
-            strlen(\WebVision\WvFeuserLocations\Service\Configuration::getGoogleApiKey()),
+            'testKeyValue',
+            $this->subject->getGoogleApiKey(),
             'Google API has not the expected length. Mostly the key is not valid.'
         );
     }
