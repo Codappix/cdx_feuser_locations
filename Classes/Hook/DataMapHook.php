@@ -20,7 +20,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Hook to process updated records.
  *
- * Will geocode adresses for fe_users.
+ * Will geocode addresses for fe_users.
  *
  * @author Daniel Siepmann <d.siepmann@web-vision.de>
  */
@@ -67,7 +67,7 @@ class DataMapHook
     /**
      * Check whether to fetch geo information or not.
      *
-     * NOTE: Currently allwayd for fe_users, doesn't check the type at the moment.
+     * NOTE: Currently always for fe_users, doesn't check the type at the moment.
      *
      * @param string $table
      * @param string $action

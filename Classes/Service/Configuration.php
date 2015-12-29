@@ -21,7 +21,7 @@ use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 /**
  * Service for configurations.
  *
- * Provides single point interactions to Configurations.
+ * Provides single point interactions to configurations.
  *
  * @author Daniel Siepmann <d.siepmann@web-vision.de>
  */

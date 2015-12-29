@@ -15,7 +15,7 @@
 
 /**
  * Extend fe_users with another type to use for locations only.
- * Fields lice username and password will be removed.
+ * Fields like username and password will be removed.
  *
  * @author Daniel Siepmann <d.siepmann@web-vision.de>
  */
@@ -104,11 +104,13 @@ call_user_func(
                     'telephone' => [
                         'config' => [
                             'type' => 'text',
+                            'max' => 255,
                         ],
                     ],
                     'email' => [
                         'config' => [
                             'type' => 'text',
+                            'max' => 255,
                         ],
                     ],
                 ],

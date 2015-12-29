@@ -77,7 +77,7 @@ class MapFieldRendering
     }
 
     /**
-     * Get inline js to configure google map and position marker.
+     * Get inline js to configure Google map and position marker.
      *
      * @param float $lat The latitude of the marker.
      * @param float $lng The longitude of the marker.
