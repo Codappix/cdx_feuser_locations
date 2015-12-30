@@ -1,4 +1,5 @@
 <?php
+namespace WebVision\WvFeuserLocations\Domain\Repository;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -13,8 +14,12 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-// Would not exist if called in Configuration folder.
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
-    'fe_users',
-    'EXT:' . $_EXTKEY . '/Resources/Private/Language/Csh/FeUsers.xlf'
-);
+use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
+
+/**
+ *
+ * @author Daniel Siepmann <d.siepmann@web-vision.de>
+ */
+class LocationRepository extends FrontendUserRepository
+{
+}
