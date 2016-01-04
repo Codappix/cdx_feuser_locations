@@ -7,11 +7,12 @@
                 <source>Google API Key used for geocoding:Get one at https://console.developers.google.com/home/dashboard</source>
             </trans-unit>
 
+            <trans-unit id="pleaseChoose" xml:space="preserve">
+                <source>Please Choose</source>
+            </trans-unit>
+
             <trans-unit id="model.location.type" xml:space="preserve">
                 <source>Location</source>
-            </trans-unit>
-            <trans-unit id="model.location.businessSegment" xml:space="preserve">
-                <source>Business segment:</source>
             </trans-unit>
             <trans-unit id="model.location.lat" xml:space="preserve">
                 <source>Latitude:</source>

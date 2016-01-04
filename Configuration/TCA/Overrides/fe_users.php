@@ -25,25 +25,6 @@ call_user_func(
         $coreLanguagePath = 'LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:';
         $languagePath = 'LLL:EXT:' . $extKey . '/Resources/Private/Language/Backend.xlf:';
 
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable(
-            $extKey,
-            $table,
-            'categories',
-            [
-                'label' => $languagePath . 'model.location.businessSegment',
-                'fieldConfiguration' => array(
-                    'renderType' => 'selectSingle',
-                    // Construction as it's the most used business segment
-                    'default' => 8,
-                    'size' => 1,
-                    'foreign_table_where' => ' AND sys_category.sys_language_uid IN (-1, 0)' .
-                        ' AND sys_category.parent IN (1,2)' .
-                        ' ORDER BY sys_category.title ASC',
-                ),
-
-            ]
-        );
-
         \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule(
             $GLOBALS['TCA'][$table],
             [
@@ -60,7 +41,9 @@ call_user_func(
                 ],
                 'palettes' => [
                     'wv_address' => [
-                        'showitem' => 'company,categories,--linebreak--,address,--linebreak--,zip,city,--linebreak--,country',
+                        'showitem' => 'company' .
+                            ',--linebreak--,address' .
+                            ',--linebreak--,zip,city,country',
                     ],
                     'wv_contact' => [
                         'showitem' => 'telephone,fax,--linebreak--,email,www',

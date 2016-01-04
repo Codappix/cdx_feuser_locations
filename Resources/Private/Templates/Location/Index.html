@@ -1,0 +1,34 @@
+<table>
+    <thead>
+        <tr>
+            <th>{f:translate(key: 'LLL:EXT:lang/locallang_general.xlf:LGL.company')}</th>
+            <th>{f:translate(key: 'LLL:EXT:lang/locallang_general.xlf:LGL.address')}</th>
+            <th>{f:translate(key: 'LLL:EXT:lang/locallang_general.xlf:LGL.telephone')}</th>
+            <th>{f:translate(key: 'LLL:EXT:lang/locallang_general.xlf:LGL.email')}</th>
+            <th>{f:translate(key: 'LLL:EXT:lang/locallang_general.xlf:LGL.www')}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <f:for each="{locations}" as="location">
+            <tr>
+                <td>{location.company -> f:format.html()}</td>
+                <td>{location.address}</td>
+                <td>
+                    <ul>
+                        <f:for each="{location.phoneNumbers}" as="phoneNumber">
+                            <li>{phoneNumber}</li>
+                        </f:for>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <f:for each="{location.emails}" as="email">
+                            <li>{email}</li>
+                        </f:for>
+                    </ul>
+                </td>
+                <td><f:link.typolink parameter="{location.www}">{location.www}</f:link.typolink></td>
+            </tr>
+        </f:for>
+    </tbody>
+</table>

@@ -13,8 +13,10 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-// Would not exist if called in Configuration folder.
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
-    'fe_users',
-    'EXT:' . $_EXTKEY . '/Resources/Private/Language/Csh/FeUsers.xlf'
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+    'WebVision.WvFeuserLocations',
+    'FeuserLocations',
+    'Frontend User Locations'
 );
+
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['wvfeuserlocations_feuserlocations'] = 'select_key';

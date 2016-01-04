@@ -1,0 +1,8 @@
+config.tx_extbase.persistence.classes {
+    WebVision\WvFeuserLocations\Domain\Model\Location {
+        mapping {
+            tableName = fe_users
+            recordType = Tx_WvFeuserLocations_Domain_Model_Location
+        }
+    }
+}

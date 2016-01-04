@@ -1,0 +1,14 @@
+[
+    {
+        "Single E-Mail" : {
+            "input" : "d.siepmann@web-vision.de",
+            "expectedResult" : ["d.siepmann@web-vision.de"]
+        }
+    },
+    {
+        "Multiple Emails" : {
+            "input" : "d.siepmann@web-vision.de\r\nd.siepmann@web-vision.de\r\nsome.other.email@domain.tld",
+            "expectedResult" : ["d.siepmann@web-vision.de","d.siepmann@web-vision.de","some.other.email@domain.tld"]
+        }
+    }
+]
