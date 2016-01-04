@@ -50,6 +50,7 @@ class LocationController extends ActionController
      */
     public function assignVariablesToView(array $variables = [])
     {
+        $variables['extendedVariables'] = [];
         $variables = $this->signalSlotDispatcher
             ->dispatch(
                 get_class($this),
