@@ -15,6 +15,7 @@ namespace WebVision\WvFeuserLocations\Controller;
  */
 
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use WebVision\WvFeuserLocations\Domain\Repository\LocationRepository;
 
 /**
  * Controller to display fe user records.
@@ -24,10 +25,21 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 class LocationController extends ActionController
 {
     /**
-     * @var WebVision\WvFeuserLocations\Domain\Repository\LocationRepository
-     * @inject
+     * @var LocationRepository
      */
     protected $repository;
+
+    /**
+     * @param LocationRepository $repository
+     *
+     * @return LocationController
+     */
+    public function injectRepository(LocationRepository $repository)
+    {
+        $this->repository = $repository;
+
+        return $this;
+    }
 
     /**
      * Deliver an index of fe users, optionally filtered.
@@ -58,6 +70,22 @@ class LocationController extends ActionController
                 $variables
             );
         $this->view->assignMultiple($variables);
+
+        return $this;
+    }
+
+    /**
+     * Injects a view.
+     *
+     * This function is for testing purposes only.
+     *
+     * @param \TYPO3\CMS\Fluid\View\TemplateView $view
+     *
+     * @return LocationController
+     */
+    public function setView(\TYPO3\CMS\Fluid\View\TemplateView $view)
+    {
+        $this->view = $view;
 
         return $this;
     }
