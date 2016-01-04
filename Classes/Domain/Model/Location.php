@@ -18,6 +18,8 @@ use TYPO3\CMS\Extbase\Domain\Model\FrontendUser;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
+ * Extend default FrontendUser to have a unique naming and provide a way to
+ * have multiple phone numbers and email addresses per location.
  *
  * @author Daniel Siepmann <d.siepmann@web-vision.de>
  */

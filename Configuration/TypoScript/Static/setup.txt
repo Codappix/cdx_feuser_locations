@@ -1,8 +1,8 @@
 plugin.tx_wvfeuserlocations {
     view {
-        layoutRootPaths.10 = EXT:wv_feuser_locations/Resources/Private/Layouts
-        partialRootPaths.10 = EXT:wv_feuser_locations/Resources/Private/Partials
-        templateRootPaths.10 = EXT:wv_feuser_locations/Resources/Private/Templates
+        layoutRootPaths.10 = EXT:wv_feuser_locations/Resources/Private/Layouts/
+        partialRootPaths.10 = EXT:wv_feuser_locations/Resources/Private/Partials/
+        templateRootPaths.10 = EXT:wv_feuser_locations/Resources/Private/Templates/
     }
     settings {
         googleApiKey = {$plugin.tx_wvfeuserlocations.settings.googleApiKey}

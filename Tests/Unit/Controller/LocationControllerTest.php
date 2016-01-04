@@ -17,7 +17,6 @@ namespace WebVision\WvFeuserLocations\Tests\Unit\Controller;
 use TYPO3\CMS\Core\Tests\UnitTestCase;
 
 /**
- *
  * @author Daniel Siepmann <d.siepmann@web-vision.de>
  */
 class LocationControllerTest extends UnitTestCase

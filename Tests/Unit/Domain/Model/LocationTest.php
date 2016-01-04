@@ -26,6 +26,9 @@ class LocationTest extends TestCase
     /**
      * @test
      * @dataProvider jsonFile
+     *
+     * @param mixed $input
+     * @param mixed $expectedResult
      */
     public function modelReturnsMultipleEmails($input, $expectedResult)
     {
@@ -48,6 +51,9 @@ class LocationTest extends TestCase
     /**
      * @test
      * @dataProvider jsonFile
+     *
+     * @param mixed $input
+     * @param mixed $expectedResult
      */
     public function modelReturnsMultiplePhoneNumbers($input, $expectedResult)
     {

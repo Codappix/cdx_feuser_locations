@@ -17,6 +17,7 @@ namespace WebVision\WvFeuserLocations\Domain\Repository;
 use TYPO3\CMS\Extbase\Domain\Repository\FrontendUserRepository;
 
 /**
+ * Custom repository to get instances of custom model.
  *
  * @author Daniel Siepmann <d.siepmann@web-vision.de>
  */
