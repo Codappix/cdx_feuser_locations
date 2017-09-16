@@ -17,6 +17,9 @@ For further information about the key, see *Configuration*.
 Configuration is done via Constants Editor where each field provides further
 information.
 
+You need to activate *Google Maps JavaScript API* for displaying google maps,
+and *Google Maps Geocoding API* for geocoding of addresses.
+
 ## Usage
 
 Insert a new frontend user, select type *Location* and fill out the fields.
