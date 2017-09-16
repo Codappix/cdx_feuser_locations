@@ -1,5 +1,5 @@
 <?php
-namespace WebVision\WvFeuserLocations\Tests\Unit\Tca\FieldRendering;
+namespace Codappix\CdxFeuserLocations\Tests\Unit\Tca\FieldRendering;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,10 +14,6 @@ namespace WebVision\WvFeuserLocations\Tests\Unit\Tca\FieldRendering;
  * The TYPO3 project - inspiring people to share!
  */
 
-/**
- *
- * @author Daniel Siepmann <d.siepmann@web-vision.de>
- */
 class MapFieldRenderingTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 {
     protected $subject;
@@ -25,7 +21,7 @@ class MapFieldRenderingTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
     public function setUp()
     {
         $configurationService = $this->getMock(
-            'WebVision\WvFeuserLocations\Service\Configuration',
+            'Codappix\CdxFeuserLocations\Service\Configuration',
             ['getGoogleApiKey']
         );
         $configurationService
@@ -34,7 +30,7 @@ class MapFieldRenderingTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
             ->will(static::returnValue('testKey'));
 
         $this->subject = $this->getMock(
-            'WebVision\WvFeuserLocations\Tca\FieldRendering\MapFieldRendering',
+            'Codappix\CdxFeuserLocations\Tca\FieldRendering\MapFieldRendering',
             ['getConfigurationService']
         );
         $this->subject

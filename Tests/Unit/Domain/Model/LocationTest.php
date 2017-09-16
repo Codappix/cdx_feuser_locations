@@ -1,5 +1,5 @@
 <?php
-namespace WebVision\WvFeuserLocations\Tests\Unit\Domain\Model;
+namespace Codappix\CdxFeuserLocations\Tests\Unit\Domain\Model;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,13 +14,8 @@ namespace WebVision\WvFeuserLocations\Tests\Unit\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
-use WebVision\WvFeuserLocations\Tests\Unit\TestCase;
+use Codappix\CdxFeuserLocations\Tests\Unit\TestCase;
 
-/**
- * Test model location.
- *
- * @author Daniel Siepmann <d.siepmann@web-vision.de>
- */
 class LocationTest extends TestCase
 {
     /**
@@ -32,7 +27,7 @@ class LocationTest extends TestCase
      */
     public function modelReturnsMultipleEmails($input, $expectedResult)
     {
-        $model = new \WebVision\WvFeuserLocations\Domain\Model\Location;
+        $model = new \Codappix\CdxFeuserLocations\Domain\Model\Location;
         $model->setEmail($input);
 
         $this->assertEquals(
@@ -57,7 +52,7 @@ class LocationTest extends TestCase
      */
     public function modelReturnsMultiplePhoneNumbers($input, $expectedResult)
     {
-        $model = new \WebVision\WvFeuserLocations\Domain\Model\Location;
+        $model = new \Codappix\CdxFeuserLocations\Domain\Model\Location;
         $model->setTelephone($input);
 
         $this->assertEquals(

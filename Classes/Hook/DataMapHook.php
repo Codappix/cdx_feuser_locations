@@ -1,5 +1,5 @@
 <?php
-namespace WebVision\WvFeuserLocations\Hook;
+namespace Codappix\CdxFeuserLocations\Hook;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -21,8 +21,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Hook to process updated records.
  *
  * Will geocode addresses for fe_users.
- *
- * @author Daniel Siepmann <d.siepmann@web-vision.de>
  */
 class DataMapHook
 {
@@ -164,7 +162,7 @@ class DataMapHook
     protected function getGoogleGeocode($address)
     {
         $googleApiKey = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')
-            ->get('WebVision\WvFeuserLocations\Service\Configuration')
+            ->get('Codappix\CdxFeuserLocations\Service\Configuration')
             ->getGoogleApiKey();
 
         return GeneralUtility::getUrl(

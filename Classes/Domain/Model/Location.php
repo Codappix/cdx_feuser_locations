@@ -1,5 +1,5 @@
 <?php
-namespace WebVision\WvFeuserLocations\Domain\Model;
+namespace Codappix\CdxFeuserLocations\Domain\Model;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -20,8 +20,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Extend default FrontendUser to have a unique naming and provide a way to
  * have multiple phone numbers and email addresses per location.
- *
- * @author Daniel Siepmann <d.siepmann@web-vision.de>
  */
 class Location extends FrontendUser
 {

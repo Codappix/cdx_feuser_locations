@@ -1,5 +1,5 @@
 <?php
-namespace WebVision\WvFeuserLocations\Service;
+namespace Codappix\CdxFeuserLocations\Service;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -22,8 +22,6 @@ use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
  * Service for configurations.
  *
  * Provides single point interactions to configurations.
- *
- * @author Daniel Siepmann <d.siepmann@web-vision.de>
  */
 class Configuration implements SingletonInterface
 {
@@ -47,8 +45,8 @@ class Configuration implements SingletonInterface
     {
         $this->configuration = $configurationManager->getConfiguration(
             ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
-            'WvFeuserLocations',
-            'WvFeuserLocations'
+            'CdxFeuserLocations',
+            'CdxFeuserLocations'
         );
 
         return $this;

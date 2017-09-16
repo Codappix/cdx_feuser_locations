@@ -14,7 +14,7 @@
  */
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-    'WebVision.WvFeuserLocations',
+    'Codappix.CdxFeuserLocations',
     'FeuserLocations',
     'Frontend User Locations'
 );

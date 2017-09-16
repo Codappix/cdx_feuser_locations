@@ -1,8 +1,8 @@
 config.tx_extbase.persistence.classes {
-    WebVision\WvFeuserLocations\Domain\Model\Location {
+    Codappix\CdxFeuserLocations\Domain\Model\Location {
         mapping {
             tableName = fe_users
-            recordType = Tx_WvFeuserLocations_Domain_Model_Location
+            recordType = Tx_CdxFeuserLocations_Domain_Model_Location
         }
     }
 }

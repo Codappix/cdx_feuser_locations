@@ -16,8 +16,6 @@
 /**
  * Extend fe_users with another type to use for locations only.
  * Fields like username and password will be removed.
- *
- * @author Daniel Siepmann <d.siepmann@web-vision.de>
  */
 call_user_func(
     function ($extKey) {
@@ -32,7 +30,7 @@ call_user_func(
                     'label_alt' => 'company',
                 ],
                 'types' => [
-                    'Tx_WvFeuserLocations_Domain_Model_Location' => [
+                    'Tx_CdxFeuserLocations_Domain_Model_Location' => [
                         'showitem' => '--palette--;;wv_address,--palette--;;wv_contact,' .
                             ',--palette--;;wv_geoinformation' .
                             ',--div--;' . $coreLanguagePath . $table . '.tabs.extended,image,tx_extbase_type' .
@@ -58,7 +56,7 @@ call_user_func(
                             'items' => [
                                 99 => [
                                     0 => $languagePath . 'model.location.type',
-                                    1 => 'Tx_WvFeuserLocations_Domain_Model_Location',
+                                    1 => 'Tx_CdxFeuserLocations_Domain_Model_Location',
                                 ],
                             ],
                         ],
@@ -81,7 +79,7 @@ call_user_func(
                         'label' => $languagePath . 'model.location.map',
                         'config' => [
                             'type' => 'user',
-                            'userFunc' => 'WebVision\WvFeuserLocations\Tca\FieldRendering\MapFieldRendering->render',
+                            'userFunc' => 'Codappix\CdxFeuserLocations\Tca\FieldRendering\MapFieldRendering->render',
                         ],
                     ],
                     'telephone' => [

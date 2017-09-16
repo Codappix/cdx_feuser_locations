@@ -1,5 +1,5 @@
 <?php
-namespace WebVision\WvFeuserLocations\Controller;
+namespace Codappix\CdxFeuserLocations\Controller;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -15,12 +15,10 @@ namespace WebVision\WvFeuserLocations\Controller;
  */
 
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use WebVision\WvFeuserLocations\Domain\Repository\LocationRepository;
+use Codappix\CdxFeuserLocations\Domain\Repository\LocationRepository;
 
 /**
  * Controller to display fe user records.
- *
- * @author Daniel Siepmann <d.siepmann@web-vision.de>
  */
 class LocationController extends ActionController
 {

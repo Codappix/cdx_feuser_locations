@@ -1,5 +1,5 @@
 <?php
-namespace WebVision\WvFeuserLocations\Tests\Unit;
+namespace Codappix\CdxFeuserLocations\Tests\Unit;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -15,13 +15,8 @@ namespace WebVision\WvFeuserLocations\Tests\Unit;
  */
 
 use TYPO3\CMS\Core\Tests\UnitTestCase;
-use WebVision\WvFeuserLocations\Tests\Unit\JsonFileIterator;
+use Codappix\CdxFeuserLocations\Tests\Unit\JsonFileIterator;
 
-/**
- * Base test case providing json dataprovider.
- *
- * @author Daniel Siepmann <d.siepmann@web-vision.de>
- */
 class TestCase extends UnitTestCase
 {
     /**

@@ -1,5 +1,5 @@
 <?php
-namespace WebVision\WvFeuserLocations\Domain\Repository;
+namespace Codappix\CdxFeuserLocations\Domain\Repository;
 
 /*
  * This file is part of the TYPO3 CMS project.

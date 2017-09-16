@@ -1,5 +1,5 @@
 <?php
-namespace WebVision\WvFeuserLocations\Tca\FieldRendering;
+namespace Codappix\CdxFeuserLocations\Tca\FieldRendering;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,14 +14,12 @@ namespace WebVision\WvFeuserLocations\Tca\FieldRendering;
  * The TYPO3 project - inspiring people to share!
  */
 
-use WebVision\WvFeuserLocations\Service\Configuration;
+use Codappix\CdxFeuserLocations\Service\Configuration;
 
 /**
  * Google Map rendering for TCA field.
  *
  * Will render a Google Map as TCA field.
- *
- * @author Daniel Siepmann <d.siepmann@web-vision.de>
  */
 class MapFieldRendering
 {
@@ -106,11 +104,11 @@ class MapFieldRendering
      *
      * @codeCoverageIgnore Just wraps TYPO3 API.
      *
-     * @return \WebVision\WvFeuserLocations\Service\Configuration
+     * @return \Codappix\CdxFeuserLocations\Service\Configuration
      */
     protected function getConfigurationService()
     {
         return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')
-            ->get('WebVision\WvFeuserLocations\Service\Configuration');
+            ->get('Codappix\CdxFeuserLocations\Service\Configuration');
     }
 }

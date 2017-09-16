@@ -1,5 +1,5 @@
 <?php
-namespace WebVision\WvFeuserLocations\Tests\Unit\Hook;
+namespace Codappix\CdxFeuserLocations\Tests\Unit\Hook;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,7 +14,7 @@ namespace WebVision\WvFeuserLocations\Tests\Unit\Hook;
  * The TYPO3 project - inspiring people to share!
  */
 
-use WebVision\WvFeuserLocations\Tests\Unit\TestCase;
+use Codappix\CdxFeuserLocations\Tests\Unit\TestCase;
 
 /**
  * Test exceptions within hook.
@@ -40,7 +40,7 @@ class AbstractDataMapHook extends TestCase
                 'country' => 'Germany',
             ]));
         $this->subject = $this
-            ->getMockBuilder('\WebVision\WvFeuserLocations\Hook\DataMapHook')
+            ->getMockBuilder('\Codappix\CdxFeuserLocations\Hook\DataMapHook')
             ->setMethods(['getDatabaseConnection', 'getGoogleGeocode'])
             ->getMock();
         $this->subject->expects($this->once())

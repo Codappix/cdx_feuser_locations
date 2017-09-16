@@ -14,7 +14,7 @@
  */
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    'WebVision.' . $_EXTKEY,
+    'Codappix.' . $_EXTKEY,
     'FeuserLocations',
     [
         'Location' => 'index'
@@ -22,4 +22,4 @@
 );
 
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][$_EXTKEY]
-    = 'WebVision\WvFeuserLocations\Hook\DataMapHook';
+    = 'Codappix\CdxFeuserLocations\Hook\DataMapHook';

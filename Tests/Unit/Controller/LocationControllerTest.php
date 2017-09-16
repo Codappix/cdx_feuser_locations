@@ -1,5 +1,5 @@
 <?php
-namespace WebVision\WvFeuserLocations\Tests\Unit\Controller;
+namespace Codappix\CdxFeuserLocations\Tests\Unit\Controller;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -16,19 +16,16 @@ namespace WebVision\WvFeuserLocations\Tests\Unit\Controller;
 
 use TYPO3\CMS\Core\Tests\UnitTestCase;
 
-/**
- * @author Daniel Siepmann <d.siepmann@web-vision.de>
- */
 class LocationControllerTest extends UnitTestCase
 {
     /**
-     * @var WebVision\WvFeuserLocations\Domain\Repository\LocationRepository
+     * @var Codappix\CdxFeuserLocations\Domain\Repository\LocationRepository
      */
     protected $repository;
 
     public function setUp()
     {
-        $this->repository = $this->getMockBuilder('\WebVision\WvFeuserLocations\Domain\Repository\LocationRepository')
+        $this->repository = $this->getMockBuilder('\Codappix\CdxFeuserLocations\Domain\Repository\LocationRepository')
             ->disableOriginalConstructor()
             ->getMock();
         $this->repository->expects($this->once())
@@ -41,7 +38,7 @@ class LocationControllerTest extends UnitTestCase
      */
     public function indexActionWillProvideAllLocations()
     {
-        $controller = $this->getMockBuilder('\WebVision\WvFeuserLocations\Controller\LocationController')
+        $controller = $this->getMockBuilder('\Codappix\CdxFeuserLocations\Controller\LocationController')
             ->setMethods(['assignVariablesToView'])
             ->getMock();
         $controller->injectRepository($this->repository);
@@ -66,7 +63,7 @@ class LocationControllerTest extends UnitTestCase
             ->disableOriginalConstructor()
             ->setMethods(['assignMultiple'])
             ->getMock();
-        $controller = $this->getMockBuilder('\WebVision\WvFeuserLocations\Controller\LocationController')
+        $controller = $this->getMockBuilder('\Codappix\CdxFeuserLocations\Controller\LocationController')
             ->setMockClassName('ControllerMock')
             ->setMethods(null)
             ->getMock();

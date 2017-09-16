@@ -1,12 +1,12 @@
 {
-    "name": "web-vision/wv_feuser_locations",
+    "name": "codappix/cdx_feuser_locations",
     "type": "typo3-cms-extension",
     "description": "Extend fe_users with locations.",
-    "homepage": "http://web-vision.de",
+    "homepage": "https://github.com/Codappix/cdx_feuser_locations",
     "license": ["GPL-2.0+"],
     "autoload": {
         "psr-4": {
-            "WebVision\\WvFeuserLocations\\": "Classes"
+            "Codappix\\CdxFeuserLocations\\": "Classes"
         }
     },
     "require-dev": {
@@ -21,7 +21,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "WebVision\\WvFeuserLocations\\Tests\\": "Tests/",
+            "Codappix\\CdxFeuserLocations\\Tests\\": "Tests/",
             "TYPO3\\CMS\\Core\\": "vendor/typo3/cms/typo3/sysext/core/Classes/",
             "TYPO3\\CMS\\Core\\Tests\\": "vendor/typo3/cms/typo3/sysext/core/Tests/",
             "TYPO3\\CMS\\Frontend\\": "vendor/typo3/cms/typo3/sysext/frontend/Classes/"

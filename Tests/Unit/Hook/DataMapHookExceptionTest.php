@@ -1,5 +1,5 @@
 <?php
-namespace WebVision\WvFeuserLocations\Tests\Unit\Hook;
+namespace Codappix\CdxFeuserLocations\Tests\Unit\Hook;
 
 /*
  * This file is part of the TYPO3 CMS project.

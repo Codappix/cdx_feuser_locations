@@ -1,5 +1,5 @@
 <?php
-namespace WebVision\WvFeuserLocations\Tests\Unit\Service;
+namespace Codappix\CdxFeuserLocations\Tests\Unit\Service;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,9 +14,6 @@ namespace WebVision\WvFeuserLocations\Tests\Unit\Service;
  * The TYPO3 project - inspiring people to share!
  */
 
-/**
- * @author Daniel Siepmann <d.siepmann@web-vision.de>
- */
 class ConfigurationTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 {
     protected $subject;
@@ -34,7 +31,7 @@ class ConfigurationTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
                 'anotherPossibleOption' => 'testKeyValue1',
                 'googleApiKey' => 'testKeyValue',
             ]));
-        $this->subject = new \WebVision\WvFeuserLocations\Service\Configuration;
+        $this->subject = new \Codappix\CdxFeuserLocations\Service\Configuration;
         $this->subject->injectConfigurationManager($configurationManager);
     }
 
