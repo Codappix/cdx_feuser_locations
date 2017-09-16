@@ -20,11 +20,10 @@ $EM_CONF[$_EXTKEY] = array (
     'version' => '1.0.0',
     'state' => 'alpha',
     'author' => 'Daniel Siepmann',
-    'author_email' => 'd.siepmann@web-vision.de',
-    'author_company' => 'web-vision GmbH',
-    'constraints' => array (
-        'depends' => array (
-            'typo3' => '7.6',
-        ),
-    ),
+    'author_email' => 'coding@daniel-siepmann.de',
+    'constraints' => [
+        'depends' => [
+            'typo3' => '8.7',
+        ],
+    ],
 );
