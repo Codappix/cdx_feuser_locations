@@ -10,8 +10,9 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "~5.1",
-        "typo3/cms": "~7.6"
+        "phpunit/phpunit": "~6.3.0",
+        "typo3/cms": "~8.7.0",
+        "typo3/testing-framework": "~1.1.4"
     },
     "extra": {
         "typo3/cms": {
@@ -21,10 +22,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Codappix\\CdxFeuserLocations\\Tests\\": "Tests/",
-            "TYPO3\\CMS\\Core\\": "vendor/typo3/cms/typo3/sysext/core/Classes/",
-            "TYPO3\\CMS\\Core\\Tests\\": "vendor/typo3/cms/typo3/sysext/core/Tests/",
-            "TYPO3\\CMS\\Frontend\\": "vendor/typo3/cms/typo3/sysext/frontend/Classes/"
+            "Codappix\\CdxFeuserLocations\\Tests\\": "Tests/"
         }
     }
 }

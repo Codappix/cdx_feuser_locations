@@ -20,10 +20,9 @@ class ConfigurationTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 
     public function setUp()
     {
-        $configurationManager = $this->getMock(
-            'TYPO3\CMS\Extbase\Configuration\ConfigurationManager',
-            ['getConfiguration']
-        );
+        $configurationManager = $this->getMockBuilder(\TYPO3\CMS\Extbase\Configuration\ConfigurationManager::class)
+            ->setMethods(['getConfiguration'])
+            ->getMock();
         $configurationManager
             ->expects($this->once())
             ->method('getConfiguration')

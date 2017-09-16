@@ -27,10 +27,9 @@ class AbstractDataMapHook extends TestCase
 
     public function setUp()
     {
-        $dbConnection = $this->getMock(
-            '\TYPO3\CMS\Core\Database\DatabaseConnection',
-            ['exec_SELECTgetSingleRow']
-        );
+        $dbConnection = $this->getMockBuilder(\TYPO3\CMS\Core\Database\DatabaseConnection::class)
+            ->setMethods(['exec_SELECTgetSingleRow'])
+            ->getMock();
         $dbConnection->expects($this->once())
             ->method('exec_SELECTgetSingleRow')
             ->will(static::returnValue([
@@ -40,7 +39,7 @@ class AbstractDataMapHook extends TestCase
                 'country' => 'Germany',
             ]));
         $this->subject = $this
-            ->getMockBuilder('\Codappix\CdxFeuserLocations\Hook\DataMapHook')
+            ->getMockBuilder(\Codappix\CdxFeuserLocations\Hook\DataMapHook::class)
             ->setMethods(['getDatabaseConnection', 'getGoogleGeocode'])
             ->getMock();
         $this->subject->expects($this->once())

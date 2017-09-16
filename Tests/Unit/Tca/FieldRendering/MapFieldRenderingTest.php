@@ -20,19 +20,17 @@ class MapFieldRenderingTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 
     public function setUp()
     {
-        $configurationService = $this->getMock(
-            'Codappix\CdxFeuserLocations\Service\Configuration',
-            ['getGoogleApiKey']
-        );
+        $configurationService = $this->getMockBuilder(\Codappix\CdxFeuserLocations\Service\Configuration::class)
+            ->setMethods(['getGoogleApiKey'])
+            ->getMock();
         $configurationService
             ->expects($this->atLeastOnce())
             ->method('getGoogleApiKey')
             ->will(static::returnValue('testKey'));
 
-        $this->subject = $this->getMock(
-            'Codappix\CdxFeuserLocations\Tca\FieldRendering\MapFieldRendering',
-            ['getConfigurationService']
-        );
+        $this->subject = $this->getMockBuilder(\Codappix\CdxFeuserLocations\Tca\FieldRendering\MapFieldRendering::class)
+            ->setMethods(['getConfigurationService'])
+            ->getMock();
         $this->subject
             ->expects($this->atLeastOnce())
             ->method('getConfigurationService')
