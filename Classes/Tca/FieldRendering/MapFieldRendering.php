@@ -32,6 +32,10 @@ class MapFieldRendering
      */
     public function render(array &$configuration)
     {
+        if (!$configuration['row']['lat'] || !$configuration['row']['lng']) {
+            return '';
+        }
+
         return $this->getInlineJs($configuration['row']['lat'], $configuration['row']['lng']) .
             $this->getInlineCss() .
             $this->getHtml() .
@@ -47,7 +51,7 @@ class MapFieldRendering
     {
         return '<script src="https://maps.googleapis.com/maps/api/js?key=' .
              $this->getConfigurationService()->getGoogleApiKey() .
-            '&callback=wv.initGoogleMap" async defer></script>';
+            '&callback=cdx.initGoogleMap" async defer></script>';
     }
 
     /**
@@ -58,7 +62,7 @@ class MapFieldRendering
     protected function getInlineCss()
     {
         return '<style type="text/css" media="all">
-            #wvGoogleMap {
+            #cdxGoogleMap {
                 height: 250px;
             }
         </style>';
@@ -71,7 +75,7 @@ class MapFieldRendering
      */
     protected function getHtml()
     {
-        return '<div id="wvGoogleMap"></div>';
+        return '<div id="cdxGoogleMap"></div>';
     }
 
     /**
@@ -85,16 +89,18 @@ class MapFieldRendering
     protected function getInlineJs($lat, $lng)
     {
         return '<script type="text/javascript" charset="utf-8">
-            window.wv = window.wv || {};
-            window.wv.initGoogleMap = function() {
-                var map = new google.maps.Map(document.getElementById("wvGoogleMap"), {
-                        center: {lat: ' . $lat . ', lng: ' . $lng . '},
-                        zoom: 13
-                    }),
-                    marker = new google.maps.Marker({
-                        position: {lat: ' . $lat . ', lng: ' . $lng . '},
-                        map: map
-                    });
+            window.cdx = window.cdx || {};
+            window.cdx.initGoogleMap = function() {
+                window.setTimeout(function() {
+                    var map = new google.maps.Map(document.getElementById("cdxGoogleMap"), {
+                            center: {lat: ' . (float) $lat . ', lng: ' . (float) $lng . '},
+                            zoom: 13
+                        }),
+                        marker = new google.maps.Marker({
+                            position: {lat: ' . (float) $lat . ', lng: ' . (float) $lng . '},
+                            map: map
+                        });
+                }, 1000);
             };
         </script>';
     }

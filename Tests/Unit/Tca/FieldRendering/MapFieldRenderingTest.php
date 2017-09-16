@@ -20,21 +20,10 @@ class MapFieldRenderingTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 
     public function setUp()
     {
-        $configurationService = $this->getMockBuilder(\Codappix\CdxFeuserLocations\Service\Configuration::class)
-            ->setMethods(['getGoogleApiKey'])
-            ->getMock();
-        $configurationService
-            ->expects($this->atLeastOnce())
-            ->method('getGoogleApiKey')
-            ->will(static::returnValue('testKey'));
 
         $this->subject = $this->getMockBuilder(\Codappix\CdxFeuserLocations\Tca\FieldRendering\MapFieldRendering::class)
             ->setMethods(['getConfigurationService'])
             ->getMock();
-        $this->subject
-            ->expects($this->atLeastOnce())
-            ->method('getConfigurationService')
-            ->will(static::returnValue($configurationService));
     }
 
     /**
@@ -42,6 +31,18 @@ class MapFieldRenderingTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
      */
     public function getRenderedGoogleMap()
     {
+        $configurationService = $this->getMockBuilder(\Codappix\CdxFeuserLocations\Service\Configuration::class)
+            ->setMethods(['getGoogleApiKey'])
+            ->getMock();
+        $configurationService
+            ->expects($this->atLeastOnce())
+            ->method('getGoogleApiKey')
+            ->will(static::returnValue('testKey'));
+        $this->subject
+            ->expects($this->atLeastOnce())
+            ->method('getConfigurationService')
+            ->will(static::returnValue($configurationService));
+
         $configuration = [
             'row' => [
                 'lat' => 54.3243432,
@@ -50,7 +51,7 @@ class MapFieldRenderingTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
         ];
 
         $this->assertRegExp(
-            '/id="wvGoogleMap"/',
+            '/id="cdxGoogleMap"/',
             $this->subject->render($configuration),
             'No HTML Element with necessary id returned.'
         );
@@ -63,6 +64,25 @@ class MapFieldRenderingTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
             '/position\: {lat: 54\.3243432, lng: -1\.2\}/',
             $this->subject->render($configuration),
             'Position of marker is not set properly.'
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function googleMapIsNotRenderedIfNoLatOrLngExist()
+    {
+        $configuration = [
+            'row' => [
+                'lat' => '',
+                'lng' => '',
+            ],
+        ];
+
+        $this->assertSame(
+            '',
+            $this->subject->render($configuration),
+            'Something was returned, when it should not.'
         );
     }
 }
