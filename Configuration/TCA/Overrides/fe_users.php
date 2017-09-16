@@ -31,22 +31,22 @@ call_user_func(
                 ],
                 'types' => [
                     'Tx_CdxFeuserLocations_Domain_Model_Location' => [
-                        'showitem' => '--palette--;;wv_address,--palette--;;wv_contact,' .
-                            ',--palette--;;wv_geoinformation' .
+                        'showitem' => '--palette--;;cdx_address,--palette--;;cdx_contact,' .
+                            ',--palette--;;cdx_geoinformation' .
                             ',--div--;' . $coreLanguagePath . $table . '.tabs.extended,image,tx_extbase_type' .
                             ',--div--;' . $coreLanguagePath . $table . '.tabs.access,disable,starttime,endtime',
                     ],
                 ],
                 'palettes' => [
-                    'wv_address' => [
+                    'cdx_address' => [
                         'showitem' => 'company' .
                             ',--linebreak--,address' .
                             ',--linebreak--,zip,city,country',
                     ],
-                    'wv_contact' => [
+                    'cdx_contact' => [
                         'showitem' => 'telephone,fax,--linebreak--,email,www',
                     ],
-                    'wv_geoinformation' => [
+                    'cdx_geoinformation' => [
                         'showitem' => 'lat,lng,--linebreak--,map',
                     ],
                 ],
@@ -105,5 +105,5 @@ call_user_func(
         );
         $GLOBALS['TCA'][$table]['interface']['showRecordFieldList'] .= ',lat,lng';
     },
-    'wv_feuser_locations'
+    'cdx_feuser_locations'
 );

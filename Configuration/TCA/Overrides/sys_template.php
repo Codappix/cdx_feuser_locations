@@ -14,7 +14,7 @@
  */
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
-    'wv_feuser_locations',
+    'cdx_feuser_locations',
     'Configuration/TypoScript/Static',
     'Extension Configuration'
 );
