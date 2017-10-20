@@ -37,14 +37,10 @@ class GeocodeCommandController extends CommandController
      */
     protected $logger;
 
-    public function injectLogger(\TYPO3\CMS\Core\Log\LogManager $logManager)
-    {
-        $this->logger = $logManager->getLogger(__CLASS__);
-    }
-
-    public function __construct(Geocode $geocode)
+    public function __construct(Geocode $geocode, \TYPO3\CMS\Core\Log\LogManager $logManager)
     {
         $this->geocode = $geocode;
+        $this->logger = $logManager->getLogger(__CLASS__);
     }
 
     /**
