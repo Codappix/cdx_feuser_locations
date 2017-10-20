@@ -78,8 +78,12 @@ call_user_func(
                     'map' => [
                         'label' => $languagePath . 'model.location.map',
                         'config' => [
-                            'type' => 'user',
-                            'userFunc' => 'Codappix\CdxFeuserLocations\Tca\FieldRendering\MapFieldRendering->render',
+                            'type' => 'passthrough',
+                            'renderType' => 'googleMap',
+                            'fields' => [
+                                'lat' => 'lat',
+                                'lng' => 'lng',
+                            ],
                         ],
                     ],
                     'telephone' => [

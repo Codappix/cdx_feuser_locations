@@ -19,6 +19,24 @@ use Codappix\CdxFeuserLocations\Tests\Unit\JsonFileIterator;
 
 class TestCase extends UnitTestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+
+        // Disable db cache backend for unit tests.
+
+        \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \TYPO3\CMS\Core\Cache\CacheManager::class
+        )->setCacheConfigurations([
+            'extbase_object' => [
+                'backend' => \TYPO3\CMS\Core\Cache\Backend\NullBackend::class,
+            ],
+            'extbase_datamapfactory_datamap' => [
+                'backend' => \TYPO3\CMS\Core\Cache\Backend\NullBackend::class,
+            ],
+        ]);
+    }
+
     /**
      * Autoloading dataprovider for json files per test class.
      *
