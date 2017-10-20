@@ -33,13 +33,19 @@ class GeocodeCommandController extends CommandController
     protected $geocode;
 
     /**
+     * @var ConnectionPool
+     */
+    protected $connection;
+
+    /**
      * @var \TYPO3\CMS\Core\Log\Logger
      */
     protected $logger;
 
-    public function __construct(Geocode $geocode, \TYPO3\CMS\Core\Log\LogManager $logManager)
+    public function __construct(Geocode $geocode, ConnectionPool $connection, \TYPO3\CMS\Core\Log\LogManager $logManager)
     {
         $this->geocode = $geocode;
+        $this->connection = $connection;
         $this->logger = $logManager->getLogger(__CLASS__);
     }
 
@@ -49,16 +55,8 @@ class GeocodeCommandController extends CommandController
     public function feUserCommand()
     {
         $this->logger->info('Adding geocoding information to fe_users.');
-        $connection = GeneralUtility::makeInstance(ConnectionPool::class);
 
-        $users = $connection
-            ->getQueryBuilderForTable('fe_users')
-            ->select('*')
-            ->from('fe_users')
-            ->execute()
-            ->fetchAll();
-
-        foreach ($users as $user) {
+        foreach ($this->getFeUsers() as $user) {
             $this->logger->info(sprintf(
                 'Geocoding fe_user "%s" with address "%s".',
                 $user['username'],
@@ -67,7 +65,7 @@ class GeocodeCommandController extends CommandController
 
             try {
                 $geoInformation = $this->geocode->getGeoinformationForUser($user);
-                $connection->getConnectionForTable('fe_users')->update('fe_users', [
+                $this->connection->getConnectionForTable('fe_users')->update('fe_users', [
                     'lat' => $geoInformation['geometry']['location']['lat'],
                     'lng' => $geoInformation['geometry']['location']['lng'],
                 ], ['uid' => $user['uid']]);
@@ -86,5 +84,15 @@ class GeocodeCommandController extends CommandController
                 ));
             }
         }
+    }
+
+    protected function getFeUsers() : array
+    {
+        return $this->connection
+            ->getQueryBuilderForTable('fe_users')
+            ->select('*')
+            ->from('fe_users')
+            ->execute()
+            ->fetchAll();
     }
 }

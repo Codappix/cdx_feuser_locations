@@ -23,7 +23,7 @@ namespace Codappix\CdxFeuserLocations\Tests\Functional\Command;
 use Codappix\CdxFeuserLocations\Command\GeocodeCommandController;
 use Codappix\CdxFeuserLocations\Service\Geocode;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 class GeocodeCommandControllerTest extends FunctionalTestCase
@@ -36,7 +36,7 @@ class GeocodeCommandControllerTest extends FunctionalTestCase
     public function geocodedInformationIsAddedToFeUsers()
     {
         $this->importDataSet(__DIR__ . '/../Fixture/GeocodeFeUser.xml');
-        $subject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManagerInterface::class)
+        $subject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class)
             ->get(GeocodeCommandController::class);
         $subject->feUserCommand();
 
@@ -47,6 +47,9 @@ class GeocodeCommandControllerTest extends FunctionalTestCase
             ->execute()
             ->fetchAll();
 
-        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($users, '$users', 8, true);die;
+        foreach ($users as $index => $user) {
+            $this->assertGreaterThan(0, $user['lat'], 'No latitude was assigned to user ' . $index);
+            $this->assertGreaterThan(0, $user['lng'], 'No longitude was assigned to user ' . $index);
+        }
     }
 }
