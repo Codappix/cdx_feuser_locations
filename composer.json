@@ -15,6 +15,9 @@
         "typo3/testing-framework": "~1.1.4"
     },
     "extra": {
+        "branch-alias": {
+            "dev-feature/cms8-update": "1.0.x-dev"
+        },
         "typo3/cms": {
             "cms-package-dir": "{$vendor-dir}/typo3/cms",
             "web-dir": "web"
