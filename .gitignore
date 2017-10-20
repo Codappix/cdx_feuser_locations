@@ -1,4 +1,2 @@
-test-results
 composer.lock
-vendor
-web
+.Build

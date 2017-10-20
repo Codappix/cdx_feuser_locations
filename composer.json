@@ -14,18 +14,30 @@
         "typo3/cms": "~8.7.0",
         "typo3/testing-framework": "~1.1.4"
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Codappix\\CdxFeuserLocations\\Tests\\": "Tests/",
+            "TYPO3\\CMS\\Core\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/core/Tests/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "vendor-dir": ".Build/vendor",
+        "bin-dir": ".Build/bin"
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "mkdir -p .Build/web/typo3conf/ext/",
+            "[ -L .Build/web/typo3conf/ext/cdx_feuser_locations ] || ln -snvf ../../../../. .Build/web/typo3conf/ext/cdx_feuser_locations"
+        ]
+    },
     "extra": {
         "branch-alias": {
             "dev-feature/cms8-update": "1.0.x-dev"
         },
         "typo3/cms": {
             "cms-package-dir": "{$vendor-dir}/typo3/cms",
-            "web-dir": "web"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Codappix\\CdxFeuserLocations\\Tests\\": "Tests/"
+            "web-dir": ".Build/web"
         }
     }
 }

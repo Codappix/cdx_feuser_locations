@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataset>
+    <fe_users>
+        <uid>1</uid>
+        <pid>0</pid>
+        <username>some_username</username>
+        <name>Max Mustermann</name>
+        <last_name>Stahnke</last_name>
+        <address>Wilhelmstr. 35</address>
+        <zip>52070</zip>
+        <city>Aachen</city>
+        <country>Deutschland</country>
+        <lat></lat>
+        <lng></lng>
+    </fe_users>
+</dataset>
