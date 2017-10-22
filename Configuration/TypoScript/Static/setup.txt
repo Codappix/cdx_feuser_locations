@@ -1,13 +1,13 @@
-plugin.tx_wvfeuserlocations {
+plugin.tx_cdxfeuserlocations {
     view {
-        layoutRootPaths.10 = EXT:wv_feuser_locations/Resources/Private/Layouts/
-        partialRootPaths.10 = EXT:wv_feuser_locations/Resources/Private/Partials/
-        templateRootPaths.10 = EXT:wv_feuser_locations/Resources/Private/Templates/
+        layoutRootPaths.10 = EXT:cdx_feuser_locations/Resources/Private/Layouts/
+        partialRootPaths.10 = EXT:cdx_feuser_locations/Resources/Private/Partials/
+        templateRootPaths.10 = EXT:cdx_feuser_locations/Resources/Private/Templates/
     }
     settings {
-        googleApiKey = {$plugin.tx_wvfeuserlocations.settings.googleApiKey}
+        googleApiKey = {$plugin.tx_cdxfeuserlocations.settings.googleApiKey}
     }
 }
 
 # Copy full plugin configuration to module (Backend).
-module.tx_wvfeuserlocations < plugin.tx_wvfeuserlocations
+module.tx_cdxfeuserlocations < plugin.tx_cdxfeuserlocations

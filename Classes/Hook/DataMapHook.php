@@ -14,6 +14,7 @@ namespace Codappix\CdxFeuserLocations\Hook;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Codappix\CdxFeuserLocations\Service\Geocode;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -39,6 +40,11 @@ class DataMapHook
     protected $tableToProcess = 'fe_users';
 
     /**
+     * @var Geocode
+     */
+    protected $geocode = null;
+
+    /**
      * Hook to add latitude and longitude to locations.
      *
      * @param string $action The action to perform, e.g. 'update'.
@@ -51,29 +57,20 @@ class DataMapHook
     public function processDatamap_postProcessFieldArray( // @codingStandardsIgnoreLine
         $action, $table, $uid, array &$modifiedFields
     ) {
-        if(!$this->processGeocoding($table, $action, $modifiedFields)) {
+        if (!$this->processGeocoding($table, $action, $modifiedFields)) {
             return;
         }
 
-        $geoInformation = $this->getGeoinformation(
-            $this->getAddress($modifiedFields, $uid)
-        );
+        if ($this->geocode === null) {
+            $this->geocode = GeneralUtility::makeInstance(Geocode::class);
+        }
+        $geoInformation = $this->geocode
+            ->getGeoinformationForUser($this->getFullUser($modifiedFields, $uid));
         $modifiedFields['lat'] = $geoInformation['geometry']['location']['lat'];
         $modifiedFields['lng'] = $geoInformation['geometry']['location']['lng'];
     }
 
-    /**
-     * Check whether to fetch geo information or not.
-     *
-     * NOTE: Currently always for fe_users, doesn't check the type at the moment.
-     *
-     * @param string $table
-     * @param string $action
-     * @param array $modifiedFields
-     *
-     * @return bool
-     */
-    protected function processGeocoding($table, $action, array $modifiedFields)
+    protected function processGeocoding(string $table, string $action, array $modifiedFields) : bool
     {
         // Do not process if foreign table, unintended action,
         // or fields were changed explicitly.
@@ -98,19 +95,9 @@ class DataMapHook
         return false;
     }
 
-    /**
-     * Get address of the given record.
-     *
-     * Merges information from database with modified ones.
-     *
-     * @param array $modifiedFields Modified fields for overwrite.
-     * @param int $uid Uid to fetch record from db.
-     *
-     * @return string
-     */
-    protected function getAddress(array $modifiedFields, $uid)
+    protected function getFullUser(array $modifiedFields, int $uid) : array
     {
-        $record = $this->getDatabaseConnection()
+        $fullUser = $this->getDatabaseConnection()
             ->exec_SELECTgetSingleRow(
                 implode(',', $this->fieldsTriggerUpdate),
                 $this->tableToProcess,
@@ -118,68 +105,10 @@ class DataMapHook
             );
 
         ArrayUtility::mergeRecursiveWithOverrule(
-            $record,
+            $fullUser,
             $modifiedFields
         );
 
-        return implode(
-            ' ',
-            [$record['address'], $record['zip'], $record['city'], $record['country']]
-        );
-    }
-
-    /**
-     * Get geo information from Google for given address.
-     *
-     * @param string $address
-     *
-     * @return array
-     */
-    protected function getGeoinformation($address)
-    {
-        $response = json_decode($this->getGoogleGeocode($address), true);
-
-        if ($response['status'] === 'OK') {
-            // Return first geocode result on success.
-            return $response['results'][0];
-        }
-
-        throw new \UnexpectedValueException(
-            'Could not geocode address: "' . $address . '". Return status was: "' . $response['status'] . '".',
-            1450279414
-        );
-    }
-
-    /**
-     * Get pure geocode API result from Google.
-     *
-     * @codeCoverageIgnore Just wrap Google API.
-     *
-     * @param string $address
-     *
-     * @return string
-     */
-    protected function getGoogleGeocode($address)
-    {
-        $googleApiKey = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')
-            ->get('Codappix\CdxFeuserLocations\Service\Configuration')
-            ->getGoogleApiKey();
-
-        return GeneralUtility::getUrl(
-            'https://maps.googleapis.com/maps/api/geocode/json?address=' .
-            urlencode($address) . '&key=' . $googleApiKey
-        );
-    }
-
-    /**
-     * Get TYPO3 database connection.
-     *
-     * @codeCoverageIgnore Just wraps TYPO3 API.
-     *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
+        return $fullUser;
     }
 }

@@ -19,4 +19,4 @@
     'Frontend User Locations'
 );
 
-$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['wvfeuserlocations_feuserlocations'] = 'select_key';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist']['cdxfeuserlocations_feuserlocations'] = 'select_key';

@@ -14,6 +14,8 @@ namespace Codappix\CdxFeuserLocations\Tests\Unit\Hook;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Codappix\CdxFeuserLocations\Service\Geocode;
+
 /**
  * Test exceptions within hook.
  *
@@ -24,14 +26,16 @@ class DataMapHookExceptionTest extends AbstractDataMapHook
     public function setUp()
     {
         parent::setUp();
-        $this->subject->expects($this->once())
+
+        $geocode = $this->getMockBuilder(Geocode::class)
+            ->setMethods(['getGoogleGeocode'])
+            ->getMock();
+        $geocode->expects($this->once())
             ->method('getGoogleGeocode')
             ->with('An der Eickesmühle 38 41238 Mönchengladbach Germany')
-            ->will(static::returnValue(
-                json_encode([
-                    'status' => 'Failure',
-                ])
-            ));
+            ->will(static::returnValue(json_encode(['status' => 'Failure'])));
+
+        $this->inject($this->subject, 'geocode', $geocode);
     }
 
     /**

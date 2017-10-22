@@ -1,0 +1,33 @@
+<phpunit
+    backupGlobals="false"
+    backupStaticAttributes="false"
+    bootstrap="../../.Build/vendor/typo3/testing-framework/Resources/Core/Build/UnitTestsBootstrap.php"
+
+    colors="true"
+    convertErrorsToExceptions="false"
+    convertWarningsToExceptions="false"
+    forceCoversAnnotation="false"
+    processIsolation="false"
+    stopOnError="false"
+    stopOnFailure="false"
+    stopOnIncomplete="false"
+    stopOnSkipped="false"
+    verbose="false">
+
+    <testsuites>
+        <testsuite name="PHPUnit">
+            <directory suffix="Test.php" phpVersion="7.1.0" phpVersionOperator=">=">.</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">../../Classes</directory>
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log type="coverage-html" target="../../.Build/report/unit/html" lowUpperBound="35" highLowerBound="70"/>
+        <log type="coverage-clover" target="../../.Build/report/unit/clover/coverage"/>
+    </logging>
+</phpunit>
