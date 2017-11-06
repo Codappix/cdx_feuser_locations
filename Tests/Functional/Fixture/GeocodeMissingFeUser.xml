@@ -9,6 +9,18 @@
         <zip>52070</zip>
         <city>Aachen</city>
         <country>Deutschland</country>
+        <lat>51</lat>
+        <lng>56</lng>
+    </fe_users>
+    <fe_users>
+        <uid>2</uid>
+        <pid>0</pid>
+        <username>another_username</username>
+        <name>Max Mustermann</name>
+        <address>Wilhelmstr. 35</address>
+        <zip>52070</zip>
+        <city>Aachen</city>
+        <country>Deutschland</country>
         <lat></lat>
         <lng></lng>
     </fe_users>

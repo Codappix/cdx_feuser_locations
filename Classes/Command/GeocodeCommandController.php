@@ -52,11 +52,27 @@ class GeocodeCommandController extends CommandController
     /**
      * Geocode all fe_users entries if possible.
      */
-    public function feUserCommand()
+    public function allFeUserCommand()
     {
-        $this->logger->info('Adding geocoding information to fe_users.');
+        $this->geocodeFeUsers($this->getFeUsers());
+    }
 
-        foreach ($this->getFeUsers() as $user) {
+    /**
+     * Geocode all fe_users entries with no lat or no lon, if possible.
+     */
+    public function missingFeUserCommand()
+    {
+        $this->geocodeFeUsers($this->getFeUsers("lat = '' OR lat is null OR lng = '' OR lng is null"));
+    }
+
+    protected function geocodeFeUsers(array $feUsers)
+    {
+        $this->logger->info(sprintf(
+            'Adding geocoding information to %u fe_users.',
+            count($feUsers)
+        ));
+
+        foreach ($feUsers as $user) {
             $this->logger->info(sprintf(
                 'Geocoding fe_user "%s" with address "%s".',
                 $user['username'],
@@ -86,11 +102,12 @@ class GeocodeCommandController extends CommandController
         }
     }
 
-    protected function getFeUsers() : array
+    protected function getFeUsers(string $where = '1=1') : array
     {
         return $this->connection
             ->getQueryBuilderForTable('fe_users')
             ->select('*')
+            ->where($where)
             ->from('fe_users')
             ->execute()
             ->fetchAll();
