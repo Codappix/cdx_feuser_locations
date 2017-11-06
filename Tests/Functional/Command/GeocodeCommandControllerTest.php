@@ -33,12 +33,12 @@ class GeocodeCommandControllerTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function geocodedInformationIsAddedToFeUsers()
+    public function geocodedInformationIsAddedToAllFeUsers()
     {
-        $this->importDataSet(__DIR__ . '/../Fixture/GeocodeFeUser.xml');
+        $this->importDataSet(__DIR__ . '/../Fixture/GeocodeAllFeUser.xml');
         $subject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class)
             ->get(GeocodeCommandController::class);
-        $subject->feUserCommand();
+        $subject->allFeUserCommand();
 
         $users = $this->getConnectionPool()
             ->getQueryBuilderForTable('fe_users')
@@ -47,9 +47,42 @@ class GeocodeCommandControllerTest extends FunctionalTestCase
             ->execute()
             ->fetchAll();
 
-        foreach ($users as $index => $user) {
-            $this->assertGreaterThan(0, $user['lat'], 'No latitude was assigned to user ' . $index);
-            $this->assertGreaterThan(0, $user['lng'], 'No longitude was assigned to user ' . $index);
+        foreach ($users as $user) {
+            $this->assertGreaterThan(0, (float) $user['lat'], 'No latitude was assigned to user "' . $user['username'] . '".');
+            $this->assertGreaterThan(0, (float) $user['lng'], 'No longitude was assigned to user "' . $user['username'] . '".');
         }
+    }
+
+    /**
+     * @test
+     */
+    public function geocodedInformationIsAddedToMissingFeUsers()
+    {
+        $this->importDataSet(__DIR__ . '/../Fixture/GeocodeMissingFeUser.xml');
+        $subject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class)
+            ->get(GeocodeCommandController::class);
+        $subject->missingFeUserCommand();
+
+        $user = $this->getConnectionPool()
+            ->getQueryBuilderForTable('fe_users')
+            ->select('*')
+            ->where('uid = 1')
+            ->from('fe_users')
+            ->execute()
+            ->fetchAll();
+
+        $this->assertSame(51.0, (float) $user[0]['lat'], 'Latitude was changed for user, even if it should not be touched.');
+        $this->assertSame(56.0, (float) $user[0]['lng'], 'Longitude changed for user, even if it should not be touched.');
+
+        $user = $this->getConnectionPool()
+            ->getQueryBuilderForTable('fe_users')
+            ->select('*')
+            ->where('uid = 2')
+            ->from('fe_users')
+            ->execute()
+            ->fetchAll();
+
+        $this->assertGreaterThan(0, (float) $user[0]['lat'], 'No latitude was assigned to user.');
+        $this->assertGreaterThan(0, (float) $user[0]['lng'], 'No longitude was assigned to user.');
     }
 }
