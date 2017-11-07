@@ -105,7 +105,7 @@ class DataMapHook
             $this->flashMessageQueue->addMessage(GeneralUtility::makeInstance(
                 FlashMessage::class,
                 '',
-                'Updated latitude and longitude of record.',
+                sprintf('Updated latitude and longitude of record (%u).', $uid),
                 FlashMessage::OK,
                 true
             ));
