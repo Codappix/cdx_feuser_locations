@@ -14,7 +14,7 @@ namespace Codappix\CdxFeuserLocations\Tests\Unit\Hook;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Codappix\CdxFeuserLocations\Service\Geocode;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
 
 /**
  * Test exceptions within hook.
@@ -27,23 +27,23 @@ class DataMapHookExceptionTest extends AbstractDataMapHook
     {
         parent::setUp();
 
-        $geocode = $this->getMockBuilder(Geocode::class)
-            ->setMethods(['getGoogleGeocode'])
-            ->getMock();
-        $geocode->expects($this->once())
+        $this->geocodeMock->expects($this->once())
             ->method('getGoogleGeocode')
             ->with('An der Eickesmühle 38 41238 Mönchengladbach Germany')
-            ->will(static::returnValue(json_encode(['status' => 'Failure'])));
+            ->willReturn(json_encode(['status' => 'Failure']));
 
-        $this->inject($this->subject, 'geocode', $geocode);
+        $this->flashMessageQueueMock->expects($this->once())
+            ->method('addMessage')
+            ->with($this->callback(function ($subject) {
+                return $subject->getTitle() === 'Could not geocode record'
+                    && $subject->getMessage() === 'Could not geocode address: "An der Eickesmühle 38 41238 Mönchengladbach Germany". Return status was: "Failure".'
+                    && $subject->getSeverity() === FlashMessage::ERROR
+                    ;
+            }));
     }
 
     /**
      * @test
-     *
-     * @expectedException \UnexpectedValueException
-     * @expectedExceptionMessageRegExp #Could not geocode address.* "Failure".#
-     * @expectedExceptionCode 1450279414
      */
     public function throwExceptionOnNonSuccessfullReturn()
     {

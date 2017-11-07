@@ -15,8 +15,14 @@ namespace Codappix\CdxFeuserLocations\Hook;
  */
 
 use Codappix\CdxFeuserLocations\Service\Geocode;
+use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Hook to process updated records.
@@ -45,6 +51,37 @@ class DataMapHook
     protected $geocode = null;
 
     /**
+     * @var Connection
+     */
+    protected $dbConnection = null;
+
+    /**
+     * @var FlashMessageQueue
+     */
+    protected $flashMessageQueue = null;
+
+    public function __construct(
+        Geocode $geocode = null,
+        ConnectionPool $connectionPool = null,
+        FlashMessageService $flashMessageService = null
+    ) {
+        if ($geocode === null) {
+            $geocode = GeneralUtility::makeInstance(Geocode::class);
+        }
+        if ($connectionPool === null) {
+            $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        }
+        if ($flashMessageService === null) {
+            $flashMessageService = GeneralUtility::makeInstance(ObjectManager::class)
+                ->get(FlashMessageService::class);
+        }
+
+        $this->geocode = $geocode;
+        $this->dbConnection = $connectionPool->getConnectionForTable($this->tableToProcess);
+        $this->flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
+    }
+
+    /**
      * Hook to add latitude and longitude to locations.
      *
      * @param string $action The action to perform, e.g. 'update'.
@@ -61,13 +98,26 @@ class DataMapHook
             return;
         }
 
-        if ($this->geocode === null) {
-            $this->geocode = GeneralUtility::makeInstance(Geocode::class);
+        try {
+            $geoInformation = $this->geocode->getGeoinformationForUser($this->getFullUser($modifiedFields, $uid));
+            $modifiedFields['lat'] = $geoInformation['geometry']['location']['lat'];
+            $modifiedFields['lng'] = $geoInformation['geometry']['location']['lng'];
+            $this->flashMessageQueue->addMessage(GeneralUtility::makeInstance(
+                FlashMessage::class,
+                '',
+                'Updated latitude and longitude of record.',
+                FlashMessage::OK,
+                true
+            ));
+        } catch (\UnexpectedValueException $e) {
+            $this->flashMessageQueue->addMessage(GeneralUtility::makeInstance(
+                FlashMessage::class,
+                $e->getMessage(),
+                'Could not geocode record',
+                FlashMessage::ERROR,
+                true
+            ));
         }
-        $geoInformation = $this->geocode
-            ->getGeoinformationForUser($this->getFullUser($modifiedFields, $uid));
-        $modifiedFields['lat'] = $geoInformation['geometry']['location']['lat'];
-        $modifiedFields['lng'] = $geoInformation['geometry']['location']['lng'];
     }
 
     protected function processGeocoding(string $table, string $action, array $modifiedFields) : bool
@@ -97,17 +147,13 @@ class DataMapHook
 
     protected function getFullUser(array $modifiedFields, int $uid) : array
     {
-        $fullUser = $this->getDatabaseConnection()
-            ->exec_SELECTgetSingleRow(
-                implode(',', $this->fieldsTriggerUpdate),
-                $this->tableToProcess,
-                'uid = ' . (int) $uid
-            );
+        $fullUser = $this->dbConnection->select(
+            $this->fieldsTriggerUpdate,
+            $this->tableToProcess,
+            ['uid' => (int) $uid]
+        )->fetch();
 
-        ArrayUtility::mergeRecursiveWithOverrule(
-            $fullUser,
-            $modifiedFields
-        );
+        ArrayUtility::mergeRecursiveWithOverrule($fullUser, $modifiedFields);
 
         return $fullUser;
     }

@@ -14,8 +14,6 @@ namespace Codappix\CdxFeuserLocations\Tests\Unit\Hook;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Codappix\CdxFeuserLocations\Service\Geocode;
-
 /**
  * Test different kinds of calls where the hook get's executed.
  *
@@ -27,10 +25,7 @@ class DataMapHookExecutedTest extends AbstractDataMapHook
     {
         parent::setUp();
 
-        $geocode = $this->getMockBuilder(Geocode::class)
-            ->setMethods(['getGoogleGeocode'])
-            ->getMock();
-        $geocode->expects($this->once())
+        $this->geocodeMock->expects($this->once())
             ->method('getGoogleGeocode')
             ->with('An der Eickesmühle 38 41238 Mönchengladbach Germany')
             ->will(static::returnValue(
@@ -48,8 +43,6 @@ class DataMapHookExecutedTest extends AbstractDataMapHook
                     ]
                 ])
             ));
-
-        $this->inject($this->subject, 'geocode', $geocode);
     }
 
     /**

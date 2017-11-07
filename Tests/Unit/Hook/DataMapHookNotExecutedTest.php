@@ -14,22 +14,13 @@ namespace Codappix\CdxFeuserLocations\Tests\Unit\Hook;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Codappix\CdxFeuserLocations\Tests\Unit\TestCase;
-
 /**
  * Test different circumstances in which the hook should not be executed.
  *
  * @author Daniel Siepmann <coding@daniel-siepmann.de>
  */
-class DataMapHookNotExecutedTest extends TestCase
+class DataMapHookNotExecutedTest extends AbstractDataMapHook
 {
-    protected $subject;
-
-    public function setUp()
-    {
-        $this->subject = new \Codappix\CdxFeuserLocations\Hook\DataMapHook;
-    }
-
     /**
      * @test
      * @dataProvider jsonFile
