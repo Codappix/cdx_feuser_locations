@@ -86,24 +86,6 @@ call_user_func(
                             ],
                         ],
                     ],
-                    'telephone' => [
-                        'config' => [
-                            'type' => 'text',
-                            'wrap' => 'off',
-                            'max' => '__UNSET',
-                            'size' => '__UNSET',
-                            'eval' => '__UNSET',
-                        ],
-                    ],
-                    'email' => [
-                        'config' => [
-                            'type' => 'text',
-                            'wrap' => 'off',
-                            'max' => '__UNSET',
-                            'size' => '__UNSET',
-                            'eval' => '__UNSET',
-                        ],
-                    ],
                 ],
             ]
         );
