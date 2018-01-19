@@ -35,8 +35,6 @@ class GeocodeCommandControllerTest extends FunctionalTestCase
      */
     public function geocodedInformationIsAddedToAllFeUsers()
     {
-        $this->markTestIncomplete('We do not get the test to be working all the time.');
-
         $this->importDataSet(__DIR__ . '/../Fixture/GeocodeAllFeUser.xml');
         $subject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class)
             ->get(GeocodeCommandController::class);
@@ -50,8 +48,8 @@ class GeocodeCommandControllerTest extends FunctionalTestCase
             ->fetchAll();
 
         foreach ($users as $user) {
-            $this->assertGreaterThan(0, (float) $user['lat'], 'No latitude was assigned to user "' . $user['username'] . '".');
-            $this->assertGreaterThan(0, (float) $user['lng'], 'No longitude was assigned to user "' . $user['username'] . '".');
+            $this->assertGreaterThan(0.0, (float) $user['lat'], 'No latitude was assigned to user "' . $user['username'] . '".');
+            $this->assertGreaterThan(0.0, (float) $user['lng'], 'No longitude was assigned to user "' . $user['username'] . '".');
         }
     }
 
@@ -60,8 +58,6 @@ class GeocodeCommandControllerTest extends FunctionalTestCase
      */
     public function geocodedInformationIsAddedToMissingFeUsers()
     {
-        $this->markTestIncomplete('We do not get the test to be working all the time.');
-
         $this->importDataSet(__DIR__ . '/../Fixture/GeocodeMissingFeUser.xml');
         $subject = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ObjectManager::class)
             ->get(GeocodeCommandController::class);
@@ -86,7 +82,7 @@ class GeocodeCommandControllerTest extends FunctionalTestCase
             ->execute()
             ->fetchAll();
 
-        $this->assertGreaterThan(0, (float) $user[0]['lat'], 'No latitude was assigned to user.');
-        $this->assertGreaterThan(0, (float) $user[0]['lng'], 'No longitude was assigned to user.');
+        $this->assertGreaterThan(0.0, (float) $user[0]['lat'], 'No latitude was assigned to user.');
+        $this->assertGreaterThan(0.0, (float) $user[0]['lng'], 'No longitude was assigned to user.');
     }
 }

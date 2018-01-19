@@ -15,8 +15,8 @@ namespace Codappix\CdxFeuserLocations\Hook;
  */
 
 use Codappix\CdxFeuserLocations\Service\Geocode;
-use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
@@ -51,9 +51,9 @@ class DataMapHook
     protected $geocode = null;
 
     /**
-     * @var Connection
+     * @var QueryBuilder
      */
-    protected $dbConnection = null;
+    protected $queryBuilder = null;
 
     /**
      * @var FlashMessageQueue
@@ -77,8 +77,9 @@ class DataMapHook
         }
 
         $this->geocode = $geocode;
-        $this->dbConnection = $connectionPool->getConnectionForTable($this->tableToProcess);
         $this->flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
+        $this->queryBuilder = $connectionPool->getQueryBuilderForTable($this->tableToProcess);
+        $this->queryBuilder->getRestrictions()->removeAll();
     }
 
     /**
@@ -147,11 +148,13 @@ class DataMapHook
 
     protected function getFullUser(array $modifiedFields, int $uid) : array
     {
-        $fullUser = $this->dbConnection->select(
-            $this->fieldsTriggerUpdate,
-            $this->tableToProcess,
-            ['uid' => (int) $uid]
-        )->fetch();
+        $fullUser = $this->queryBuilder
+            ->select(...  $this->fieldsTriggerUpdate)
+            ->from($this->tableToProcess)
+            ->where('uid = :uid')
+            ->setParameter('uid', (int) $uid)
+            ->execute()
+            ->fetch();
 
         ArrayUtility::mergeRecursiveWithOverrule($fullUser, $modifiedFields);
 
