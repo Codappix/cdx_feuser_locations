@@ -17,8 +17,9 @@ namespace Codappix\CdxFeuserLocations\Tests\Unit\Hook;
 use Codappix\CdxFeuserLocations\Hook\DataMapHook;
 use Codappix\CdxFeuserLocations\Service\Geocode;
 use Codappix\CdxFeuserLocations\Tests\Unit\TestCase;
-use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Database\Query\Restriction\QueryRestrictionContainerInterface;
 use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 
@@ -40,9 +41,9 @@ abstract class AbstractDataMapHook extends TestCase
     protected $geocodeMock;
 
     /**
-     * @var Connection
+     * @var QueryBuilder
      */
-    protected $dbConnectionMock;
+    protected $queryBuilderMock;
 
     /**
      * @var FlashMessageQueue
@@ -59,18 +60,22 @@ abstract class AbstractDataMapHook extends TestCase
         $this->flashMessageQueueMock = $this->getMockBuilder(FlashMessageQueue::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $this->dbConnectionMock = $this->getMockBuilder(Connection::class)
+        $queryRestrictionMock = $this->getMockBuilder(QueryRestrictionContainerInterface::class)->getMock();
+        $this->queryBuilderMock = $this->getMockBuilder(QueryBuilder::class)
             ->disableOriginalConstructor()
             ->getMock();
+        $this->queryBuilderMock->expects($this->any())
+            ->method('getRestrictions')
+            ->willReturn($queryRestrictionMock);
         $flashMessageServiceMock = $this->getMockBuilder(FlashMessageService::class)->getMock();
         $flashMessageServiceMock->expects($this->any())
             ->method('getMessageQueueByIdentifier')
             ->willReturn($this->flashMessageQueueMock);
         $connectionPoolMock = $this->getMockBuilder(ConnectionPool::class)->getMock();
         $connectionPoolMock->expects($this->any())
-            ->method('getConnectionForTable')
+            ->method('getQueryBuilderForTable')
             ->with('fe_users')
-            ->willReturn($this->dbConnectionMock);
+            ->willReturn($this->queryBuilderMock);
 
         $statementMock = $this->getMockBuilder(\Doctrine\DBAL\Driver\Statement::class)
             ->getMock();
@@ -83,8 +88,15 @@ abstract class AbstractDataMapHook extends TestCase
                 'country' => 'Germany',
                 'uid' => 5,
             ]);
-        $this->dbConnectionMock->expects($this->any())
-            ->method('select')
+
+        $methodsToReturnMock = ['select' , 'from', 'where' , 'setParameter'];
+        foreach ($methodsToReturnMock as $methodToReturnMock) {
+            $this->queryBuilderMock->expects($this->any())
+                ->method($methodToReturnMock)
+                ->willReturn($this->queryBuilderMock);
+        }
+        $this->queryBuilderMock->expects($this->any())
+            ->method('execute')
             ->willReturn($statementMock);
 
         $this->subject = new DataMapHook($this->geocodeMock, $connectionPoolMock, $flashMessageServiceMock);
