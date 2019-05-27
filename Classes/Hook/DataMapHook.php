@@ -48,17 +48,17 @@ class DataMapHook
     /**
      * @var Geocode
      */
-    protected $geocode = null;
+    protected $geocode;
 
     /**
      * @var QueryBuilder
      */
-    protected $queryBuilder = null;
+    protected $queryBuilder;
 
     /**
      * @var FlashMessageQueue
      */
-    protected $flashMessageQueue = null;
+    protected $flashMessageQueue;
 
     public function __construct(
         Geocode $geocode = null,
@@ -138,7 +138,7 @@ class DataMapHook
 
         // Only process if one of the fields was updated, containing new information.
         foreach (array_keys($modifiedFields) as $modifiedFieldName) {
-            if (in_array($modifiedFieldName, $this->fieldsTriggerUpdate)) {
+            if (in_array($modifiedFieldName, $this->fieldsTriggerUpdate, true)) {
                 return true;
             }
         }

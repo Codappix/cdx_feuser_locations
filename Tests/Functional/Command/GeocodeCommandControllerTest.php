@@ -21,8 +21,6 @@ namespace Codappix\CdxFeuserLocations\Tests\Functional\Command;
  */
 
 use Codappix\CdxFeuserLocations\Command\GeocodeCommandController;
-use Codappix\CdxFeuserLocations\Service\Geocode;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 

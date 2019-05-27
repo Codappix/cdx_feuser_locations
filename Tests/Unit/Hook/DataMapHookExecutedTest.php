@@ -28,21 +28,19 @@ class DataMapHookExecutedTest extends AbstractDataMapHook
         $this->geocodeMock->expects($this->once())
             ->method('getGoogleGeocode')
             ->with('An der Eickesmühle 38 41238 Mönchengladbach Germany')
-            ->will(static::returnValue(
-                json_encode([
-                    'status' => 'OK',
-                    'results' => [
-                        [
-                            'geometry' => [
-                                'location' => [
-                                    'lat' => 18.23,
-                                    'lng' => 1.23,
-                                ]
+            ->willReturn(json_encode([
+                'status' => 'OK',
+                'results' => [
+                    [
+                        'geometry' => [
+                            'location' => [
+                                'lat' => 18.23,
+                                'lng' => 1.23,
                             ]
                         ]
                     ]
-                ])
-            ));
+                ]
+            ]));
     }
 
     /**

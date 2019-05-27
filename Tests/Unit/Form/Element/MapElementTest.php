@@ -54,7 +54,7 @@ class MapElementTest extends TestCase
     public function htmlOutputIsAsExpected(string $apiKey, $lat, $lng, string $expectedHtml)
     {
         $configurationMock = $this->getMockBuilder(Configuration::class)->getMock();
-        $configurationMock->expects($this->any())
+        $configurationMock
             ->method('getGoogleApiKey')
             ->willReturn($apiKey);
         GeneralUtility::setSingletonInstance(Configuration::class, $configurationMock);
