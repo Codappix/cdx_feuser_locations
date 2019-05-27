@@ -77,4 +77,19 @@ class Configuration implements SingletonInterface
     {
         return $this->getConfiguration('googleApiKey');
     }
+
+    public function getServiceMapping(): array
+    {
+        return $this->getConfiguration('service.mapping');
+    }
+
+    public function getRecordMapping(): array
+    {
+        return $this->getConfiguration('record.mapping');
+    }
+
+    public function getAllowedTables(): array
+    {
+        return $this->getConfiguration('processing.allowedTables');
+    }
 }

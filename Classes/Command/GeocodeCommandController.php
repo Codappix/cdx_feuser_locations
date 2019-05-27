@@ -20,14 +20,14 @@ namespace Codappix\CdxFeuserLocations\Command;
  * 02110-1301, USA.
  */
 
-use Codappix\CdxFeuserLocations\Service\Geocode;
+use Codappix\CdxFeuserLocations\Service\Google;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 
 class GeocodeCommandController extends CommandController
 {
     /**
-     * @var Geocode
+     * @var Google
      */
     protected $geocode;
 
@@ -41,7 +41,9 @@ class GeocodeCommandController extends CommandController
      */
     protected $logger;
 
-    public function __construct(Geocode $geocode, ConnectionPool $connection, \TYPO3\CMS\Core\Log\LogManager $logManager)
+    // TODO: Enable new feature set with different services
+
+    public function __construct(Google $geocode, ConnectionPool $connection, \TYPO3\CMS\Core\Log\LogManager $logManager)
     {
         $this->geocode = $geocode;
         $this->connection = $connection;

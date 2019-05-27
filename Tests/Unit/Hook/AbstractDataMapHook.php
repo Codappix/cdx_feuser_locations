@@ -15,7 +15,7 @@ namespace Codappix\CdxFeuserLocations\Tests\Unit\Hook;
  */
 
 use Codappix\CdxFeuserLocations\Hook\DataMapHook;
-use Codappix\CdxFeuserLocations\Service\Geocode;
+use Codappix\CdxFeuserLocations\Service\Google;
 use Codappix\CdxFeuserLocations\Tests\Unit\TestCase;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -36,7 +36,7 @@ abstract class AbstractDataMapHook extends TestCase
     protected $subject;
 
     /**
-     * @var Geocode
+     * @var Google
      */
     protected $geocodeMock;
 
@@ -54,7 +54,7 @@ abstract class AbstractDataMapHook extends TestCase
     {
         parent::setUp();
 
-        $this->geocodeMock = $this->getMockBuilder(Geocode::class)
+        $this->geocodeMock = $this->getMockBuilder(Google::class)
             ->setMethods(['getGoogleGeocode'])
             ->getMock();
         $this->flashMessageQueueMock = $this->getMockBuilder(FlashMessageQueue::class)

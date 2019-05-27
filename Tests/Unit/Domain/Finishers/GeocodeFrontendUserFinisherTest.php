@@ -21,7 +21,7 @@ namespace Codappix\CdxFeuserLocations\Tests\Unit\Domain\Finishers;
  */
 
 use Codappix\CdxFeuserLocations\Domain\Finishers\GeocodeFrontendUserFinisher;
-use Codappix\CdxFeuserLocations\Service\Geocode;
+use Codappix\CdxFeuserLocations\Service\Google;
 use Codappix\CdxFeuserLocations\Tests\Unit\TestCase;
 use TYPO3\CMS\Form\Domain\Finishers\FinisherContext;
 use TYPO3\CMS\Form\Domain\Finishers\FinisherVariableProvider;
@@ -34,7 +34,7 @@ class GeocodeFrontendUserFinisherTest extends TestCase
     protected $subject;
 
     /**
-     * @var Geocode
+     * @var Google
      */
     protected $geocodeMock;
 
@@ -52,7 +52,7 @@ class GeocodeFrontendUserFinisherTest extends TestCase
     {
         parent::setUp();
 
-        $this->geocodeMock = $this->getMockBuilder(Geocode::class)->getMock();
+        $this->geocodeMock = $this->getMockBuilder(Google::class)->getMock();
         $this->finisherVariableProvider = new FinisherVariableProvider();
         $this->contextMock = $this->getMockBuilder(FinisherContext::class)->disableOriginalConstructor()->getMock();
         $this->contextMock

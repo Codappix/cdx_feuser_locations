@@ -14,9 +14,9 @@ namespace Codappix\CdxFeuserLocations\Tests\Unit;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Tests\UnitTestCase;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-class TestCase extends UnitTestCase
+class TestCase extends PHPUnitTestCase
 {
     public function setUp()
     {

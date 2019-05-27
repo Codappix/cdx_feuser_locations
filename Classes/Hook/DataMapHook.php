@@ -14,7 +14,11 @@ namespace Codappix\CdxFeuserLocations\Hook;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Codappix\CdxFeuserLocations\Service\Geocode;
+use Codappix\CdxFeuserLocations\Domain\GeocodeableRecord;
+use Codappix\CdxFeuserLocations\Domain\GeocodeableRecordFactory;
+use Codappix\CdxFeuserLocations\Domain\GeoInformation;
+use Codappix\CdxFeuserLocations\Service\Configuration;
+use Codappix\CdxFeuserLocations\Service\GeocodeFactory;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
@@ -32,54 +36,64 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 class DataMapHook
 {
     /**
-     * Fieldnames that trigger geo decode.
+     * @var string
+     */
+    private $tableToProcess = '';
+
+    /**
+     * Table + Fieldnames combination, that trigger geo decode.
      *
      * @var array
      */
-    protected $fieldsTriggerUpdate = ['address', 'city', 'country', 'zip'];
+    private $allowedTables = [];
 
     /**
-     * Table to work on. Only this table will be processed.
-     *
-     * @var string
+     * @var GeocodeFactory
      */
-    protected $tableToProcess = 'fe_users';
+    private $geocodeFactory;
 
     /**
-     * @var Geocode
+     * @var GeocodeableRecordFactory
      */
-    protected $geocode;
+    private $geocodeableRecordFactory;
 
     /**
-     * @var QueryBuilder
+     * @var ConnectionPool
      */
-    protected $queryBuilder;
+    private $connectionPool;
 
     /**
      * @var FlashMessageQueue
      */
-    protected $flashMessageQueue;
+    private $flashMessageQueue;
 
     public function __construct(
-        Geocode $geocode = null,
         ConnectionPool $connectionPool = null,
+        GeocodeFactory $geocodeFactory = null,
+        GeocodeableRecordFactory $geocodeableRecordFactory = null,
         FlashMessageService $flashMessageService = null
     ) {
-        if ($geocode === null) {
-            $geocode = GeneralUtility::makeInstance(Geocode::class);
-        }
         if ($connectionPool === null) {
             $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        }
+        if ($geocodeFactory === null) {
+            $geocodeFactory = GeneralUtility::makeInstance(GeocodeFactory::class);
+        }
+        if ($geocodeableRecordFactory === null) {
+            $geocodeableRecordFactory = GeneralUtility::makeInstance(GeocodeableRecordFactory::class);
         }
         if ($flashMessageService === null) {
             $flashMessageService = GeneralUtility::makeInstance(ObjectManager::class)
                 ->get(FlashMessageService::class);
         }
 
-        $this->geocode = $geocode;
+        $this->geocodeFactory = $geocodeFactory;
+        $this->geocodeableRecordFactory = $geocodeableRecordFactory;
+        $this->connectionPool = $connectionPool ;
         $this->flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
-        $this->queryBuilder = $connectionPool->getQueryBuilderForTable($this->tableToProcess);
-        $this->queryBuilder->getRestrictions()->removeAll();
+
+        $this->allowedTables = GeneralUtility::makeInstance(ObjectManager::class)
+            ->get(Configuration::class)->getAllowedTables();
     }
 
     /**
@@ -93,16 +107,21 @@ class DataMapHook
      * @return void
      */
     public function processDatamap_postProcessFieldArray( // @codingStandardsIgnoreLine
-        $action, $table, $uid, array &$modifiedFields
+        $action,
+        $table,
+        $uid,
+        array &$modifiedFields
     ) {
-        if (!$this->processGeocoding($table, $action, $modifiedFields)) {
+        $this->tableToProcess = $table;
+        if (!$this->processGeocoding($action, $modifiedFields)) {
             return;
         }
 
         try {
-            $geoInformation = $this->geocode->getGeoinformationForUser($this->getFullUser($modifiedFields, $uid));
-            $modifiedFields['lat'] = $geoInformation['geometry']['location']['lat'];
-            $modifiedFields['lng'] = $geoInformation['geometry']['location']['lng'];
+            $geocoding = $this->geocodeFactory->getInstanceForTable($this->tableToProcess);
+            $geoInformation = $geocoding->getGeoinformationForRecord($this->getGeocodableRecord($modifiedFields, $uid));
+            $modifiedFields = $this->updateRecord($modifiedFields, $geoInformation);
+
             $this->flashMessageQueue->addMessage(GeneralUtility::makeInstance(
                 FlashMessage::class,
                 '',
@@ -121,24 +140,39 @@ class DataMapHook
         }
     }
 
-    protected function processGeocoding(string $table, string $action, array $modifiedFields) : bool
+    private function updateRecord(array $record, GeoInformation $geoInformation): array
+    {
+        $latField = $this->allowedTables[$this->tableToProcess]['geoFields']['lat'];
+        $lngField = $this->allowedTables[$this->tableToProcess]['geoFields']['lng'];
+
+        $record[$latField] = $geoInformation->lat();
+        $record[$lngField] = $geoInformation->lng();
+
+        return $record;
+    }
+
+    private function processGeocoding(string $action, array $modifiedFields): bool
     {
         // Do not process if foreign table, unintended action,
         // or fields were changed explicitly.
-        if ($table !== $this->tableToProcess || $action !== 'update') {
+        if ($this->isTableAllowed($this->tableToProcess) === false || $action !== 'update') {
             return false;
         }
 
+        $latField = $this->allowedTables[$this->tableToProcess]['geoFields']['lat'];
+        $lngField = $this->allowedTables[$this->tableToProcess]['geoFields']['lng'];
+
         // If fields were cleared we force geocode
-        if (isset($modifiedFields['lat']) && $modifiedFields['lat'] === ''
-            && isset($modifiedFields['lng']) && $modifiedFields['lng'] === ''
+        if (isset($modifiedFields[$latField]) && $modifiedFields[$latField] === ''
+            && isset($modifiedFields[$lngField]) && $modifiedFields[$lngField] === ''
         ) {
             return true;
         }
 
         // Only process if one of the fields was updated, containing new information.
+        $addressFields = GeneralUtility::trimExplode(',', $this->allowedTables[$this->tableToProcess]['addressFields']);
         foreach (array_keys($modifiedFields) as $modifiedFieldName) {
-            if (in_array($modifiedFieldName, $this->fieldsTriggerUpdate, true)) {
+            if (in_array($modifiedFieldName, $addressFields, true)) {
                 return true;
             }
         }
@@ -146,18 +180,31 @@ class DataMapHook
         return false;
     }
 
-    protected function getFullUser(array $modifiedFields, int $uid) : array
+    private function getGeocodableRecord(array $modifiedFields, int $uid): GeocodeableRecord
     {
-        $fullUser = $this->queryBuilder
-            ->select(...  $this->fieldsTriggerUpdate)
+        $fullRecord = $this->getQueryBuilder($this->tableToProcess)
+            ->select(... GeneralUtility::trimExplode(',', $this->allowedTables[$this->tableToProcess]['addressFields']))
             ->from($this->tableToProcess)
             ->where('uid = :uid')
             ->setParameter('uid', (int) $uid)
             ->execute()
             ->fetch();
 
-        ArrayUtility::mergeRecursiveWithOverrule($fullUser, $modifiedFields);
+        ArrayUtility::mergeRecursiveWithOverrule($fullRecord, $modifiedFields);
 
-        return $fullUser;
+        return $this->geocodeableRecordFactory->getInstanceForTable($this->tableToProcess, $fullRecord);
+    }
+
+    private function getQueryBuilder(): QueryBuilder
+    {
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable($this->tableToProcess);
+        $queryBuilder->getRestrictions()->removeAll();
+
+        return $queryBuilder;
+    }
+
+    private function isTableAllowed(): bool
+    {
+        return in_array($this->tableToProcess, array_keys($this->allowedTables));
     }
 }
