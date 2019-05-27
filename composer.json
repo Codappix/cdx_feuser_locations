@@ -9,6 +9,9 @@
             "Codappix\\CdxFeuserLocations\\": "Classes"
         }
     },
+    "require": {
+        "ext-json": "*"
+    },
     "require-dev": {
         "phpunit/phpunit": "~6.3.0",
         "typo3/cms": "~8.7.0",

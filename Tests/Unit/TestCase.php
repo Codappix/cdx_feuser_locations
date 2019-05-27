@@ -15,7 +15,6 @@ namespace Codappix\CdxFeuserLocations\Tests\Unit;
  */
 
 use TYPO3\CMS\Core\Tests\UnitTestCase;
-use Codappix\CdxFeuserLocations\Tests\Unit\JsonFileIterator;
 
 class TestCase extends UnitTestCase
 {

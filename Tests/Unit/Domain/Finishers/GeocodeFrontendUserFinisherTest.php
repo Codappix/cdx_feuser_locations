@@ -55,7 +55,7 @@ class GeocodeFrontendUserFinisherTest extends TestCase
         $this->geocodeMock = $this->getMockBuilder(Geocode::class)->getMock();
         $this->finisherVariableProvider = new FinisherVariableProvider();
         $this->contextMock = $this->getMockBuilder(FinisherContext::class)->disableOriginalConstructor()->getMock();
-        $this->contextMock->expects($this->any())
+        $this->contextMock
             ->method('getFinisherVariableProvider')
             ->willReturn($this->finisherVariableProvider);
         $this->subject = new GeocodeFrontendUserFinisher();
@@ -67,7 +67,7 @@ class GeocodeFrontendUserFinisherTest extends TestCase
      */
     public function dataIsAddedToFinisher()
     {
-        $this->geocodeMock->expects($this->any())
+        $this->geocodeMock
             ->method('getGeoinformationForUser')
             ->willReturn([
                 'geometry' => [
@@ -96,7 +96,7 @@ class GeocodeFrontendUserFinisherTest extends TestCase
      */
     public function zeroIsAddedIfExceptionIsThrown()
     {
-        $this->geocodeMock->expects($this->any())
+        $this->geocodeMock
             ->method('getGeoinformationForUser')
             ->will($this->throwException(new \UnexpectedValueException));
 

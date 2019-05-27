@@ -27,8 +27,6 @@ class JsonFileIterator implements Iterator
 
     /**
      * @param string $className E.g. `get_class($this)` in test case.
-     *
-     * @return JsonFileIterator
      */
     public function __construct($className)
     {
@@ -55,7 +53,7 @@ class JsonFileIterator implements Iterator
      */
     protected function getFileName($className)
     {
-        $dataStorage = dirname(__FILE__) . '/Data/';
+        $dataStorage = __DIR__ . '/Data/';
         $fileEnding = '.json';
 
         $file = $dataStorage . $this->fetchFileNameForClass($className) . $fileEnding;
