@@ -20,7 +20,6 @@ namespace Codappix\CdxFeuserLocations\Service;
  * 02110-1301, USA.
  */
 
-use Codappix\CdxFeuserLocations\Service\Configuration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 

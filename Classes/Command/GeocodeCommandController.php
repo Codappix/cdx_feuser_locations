@@ -22,7 +22,6 @@ namespace Codappix\CdxFeuserLocations\Command;
 
 use Codappix\CdxFeuserLocations\Service\Geocode;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 
 class GeocodeCommandController extends CommandController

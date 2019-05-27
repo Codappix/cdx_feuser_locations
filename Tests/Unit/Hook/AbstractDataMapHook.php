@@ -64,22 +64,22 @@ abstract class AbstractDataMapHook extends TestCase
         $this->queryBuilderMock = $this->getMockBuilder(QueryBuilder::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $this->queryBuilderMock->expects($this->any())
+        $this->queryBuilderMock
             ->method('getRestrictions')
             ->willReturn($queryRestrictionMock);
         $flashMessageServiceMock = $this->getMockBuilder(FlashMessageService::class)->getMock();
-        $flashMessageServiceMock->expects($this->any())
+        $flashMessageServiceMock
             ->method('getMessageQueueByIdentifier')
             ->willReturn($this->flashMessageQueueMock);
         $connectionPoolMock = $this->getMockBuilder(ConnectionPool::class)->getMock();
-        $connectionPoolMock->expects($this->any())
+        $connectionPoolMock
             ->method('getQueryBuilderForTable')
             ->with('fe_users')
             ->willReturn($this->queryBuilderMock);
 
         $statementMock = $this->getMockBuilder(\Doctrine\DBAL\Driver\Statement::class)
             ->getMock();
-        $statementMock->expects($this->any())
+        $statementMock
             ->method('fetch')
             ->willReturn([
                 'address' => 'An der Eickesmühle 38',
@@ -91,11 +91,11 @@ abstract class AbstractDataMapHook extends TestCase
 
         $methodsToReturnMock = ['select' , 'from', 'where' , 'setParameter'];
         foreach ($methodsToReturnMock as $methodToReturnMock) {
-            $this->queryBuilderMock->expects($this->any())
+            $this->queryBuilderMock
                 ->method($methodToReturnMock)
                 ->willReturn($this->queryBuilderMock);
         }
-        $this->queryBuilderMock->expects($this->any())
+        $this->queryBuilderMock
             ->method('execute')
             ->willReturn($statementMock);
 

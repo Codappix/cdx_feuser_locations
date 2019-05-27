@@ -58,8 +58,6 @@ class Configuration implements SingletonInterface
      * Provide dot notation as in fluid.
      *
      * @param string $path Empty to get all, path to get one option.
-     *
-     * @return string
      */
     public function getConfiguration($path = '')
     {
