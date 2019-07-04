@@ -6,6 +6,35 @@ plugin.tx_cdxfeuserlocations {
     }
     settings {
         googleApiKey = {$plugin.tx_cdxfeuserlocations.settings.googleApiKey}
+        service {
+            mapping {
+                fe_users = Codappix\CdxFeuserLocations\Service\Google
+            }
+        }
+        processing {
+            allowedTables {
+                fe_users {
+                    addressFields = address, city, country, zip
+                    geoFields {
+                        lat = lat
+                        lng = lng
+                    }
+                }
+            }
+        }
+        record {
+            mapping {
+                fe_users {
+                    userFunc = Codappix\CdxFeuserLocations\Domain\GenericRecordFactory->getInstance
+                    mapping {
+                        street = address
+                        zip = zip
+                        city = city
+                        country = country
+                    }
+                }
+            }
+        }
     }
 }
 

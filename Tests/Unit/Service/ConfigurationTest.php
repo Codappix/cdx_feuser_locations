@@ -26,10 +26,10 @@ class ConfigurationTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
         $configurationManager
             ->expects($this->once())
             ->method('getConfiguration')
-            ->will(static::returnValue([
+            ->willReturn([
                 'anotherPossibleOption' => 'testKeyValue1',
                 'googleApiKey' => 'testKeyValue',
-            ]));
+            ]);
         $this->subject = new \Codappix\CdxFeuserLocations\Service\Configuration;
         $this->subject->injectConfigurationManager($configurationManager);
     }

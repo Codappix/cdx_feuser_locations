@@ -26,7 +26,7 @@ use TYPO3\CMS\Form\Domain\Finishers\AbstractFinisher;
 class GeocodeFrontendUserFinisher extends AbstractFinisher
 {
     /**
-     * @var \Codappix\CdxFeuserLocations\Service\Geocode
+     * @var \Codappix\CdxFeuserLocations\Service\Google
      * @inject
      */
     protected $geocode;

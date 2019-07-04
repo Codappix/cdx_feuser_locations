@@ -58,8 +58,6 @@ class Configuration implements SingletonInterface
      * Provide dot notation as in fluid.
      *
      * @param string $path Empty to get all, path to get one option.
-     *
-     * @return string
      */
     public function getConfiguration($path = '')
     {
@@ -78,5 +76,20 @@ class Configuration implements SingletonInterface
     public function getGoogleApiKey()
     {
         return $this->getConfiguration('googleApiKey');
+    }
+
+    public function getServiceMapping(): array
+    {
+        return $this->getConfiguration('service.mapping');
+    }
+
+    public function getRecordMapping(): array
+    {
+        return $this->getConfiguration('record.mapping');
+    }
+
+    public function getAllowedTables(): array
+    {
+        return $this->getConfiguration('processing.allowedTables');
     }
 }
